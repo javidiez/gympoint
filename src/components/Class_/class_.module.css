@@ -1,0 +1,15 @@
+.circle_effort{
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+}
+
+.tableHeader th {
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+
+}
+
+.tbody_table td{
+    padding-top: 1.5rem;
+}

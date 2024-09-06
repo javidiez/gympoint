@@ -1,15 +1,27 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Login } from "../../components/Login/Login";
 import { SignUp } from "../../components/Signup/Signup";
 import logo from "../../assets/img/logo_gym.png"
 import styles from "./home.module.css"
+import useAppContext from "../../store/AppContext";
 
 
 export const Home = () => {
+
+    const { store } = useAppContext();
+    const { token } = store;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (token) {
+          navigate('/profile');
+        }
+      }, [token])
+
     return (
-        <div className="mt-5 container d-flex justify-content-center">
+        <div className="pt-5 container d-flex justify-content-center">
             <div className="d-flex flex-column">
                 <div className="d-flex flex-column mb-5 text-light align-items-center">
                 <img src={logo} className={styles.logo}/>
@@ -24,11 +36,11 @@ export const Home = () => {
                 </li>
             </ul>
             <div className="tab-content" id="pills-tabContent">
-                <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                     <Login />
 
                 </div>
-                <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabIndex="0">
                     <SignUp/>
                 </div>
 

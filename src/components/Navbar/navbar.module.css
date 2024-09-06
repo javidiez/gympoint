@@ -1,0 +1,13 @@
+.menu{
+    list-style: none;
+}
+
+.logo{
+    width: 5rem;
+}
+
+.logo_text{
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+}
