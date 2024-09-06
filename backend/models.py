@@ -1,22 +1,18 @@
 from . import db
 from enum import Enum
 
-class Role(Enum):
-    ADMIN = "admin"
-    USER = "usuario"
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(250), nullable=False)
-    name = db.Column(db.String(100), nullable=False)
-    lastname = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100))
+    lastname = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     birthdate = db.Column(db.Date)
     phone = db.Column(db.String(250))
-    role = db.Column(db.Enum(Role))
-    is_active = db.Column(db.Boolean, default=False)
+    role = db.Column(db.String(100), default='user')
+    is_active = db.Column(db.Boolean, default=True)
 
     def serialize(self):
         return {
@@ -26,11 +22,11 @@ class User(db.Model):
             "lastname": self.lastname,
             "email": self.email,
             "birthdate": self.birthdate,
-            "role": self.role.value if self.role else None,
+            "role": self.role,
             "is_active": self.is_active
         }
 
-class Class(db.Model):
+class Class_(db.Model):
     __tablename__ = 'classes'
     id = db.Column(db.Integer, primary_key=True)
     discipline_id = db.Column(db.Integer, db.ForeignKey('disciplines.id'))
@@ -39,6 +35,8 @@ class Class(db.Model):
     start_time = db.Column(db.Time)
     end_time = db.Column(db.Time)
     kal = db.Column(db.Integer)
+    room = db.Column(db.String(250))
+    type = db.Column(db.String(250))
     
     discipline = db.relationship('Discipline', backref='classes')
     teacher = db.relationship('Teacher', backref='classes')
@@ -60,9 +58,9 @@ class Class(db.Model):
 
 
 class Effort(Enum):
-    LOW = "leve"
-    MID = "moderado"
-    HIGHT = "alto"
+    LOW = "low"
+    MID = "moderate"
+    HIGHT = "hight"
 
 
 class Discipline(db.Model):
@@ -107,7 +105,7 @@ class Inscription(db.Model):
     class_id = db.Column(db.Integer, db.ForeignKey('classes.id'))
     
     user = db.relationship('User', backref='inscriptions')
-    class_ = db.relationship('Class', backref='inscriptions')
+    class_ = db.relationship('Class_', backref='inscriptions')
     
     def serialize(self):
         return {

@@ -67,7 +67,8 @@ def upgrade():
             existing_type=sa.VARCHAR(length=250),
             type_=sa.Enum('ADMIN', 'USER', name='role'),
             existing_nullable=True,
-            postgresql_using="role::text::role"
+            postgresql_using="CASE WHEN role IN ('admin', 'ADMIN') THEN 'ADMIN' ELSE 'USER' END::role"
+
         )
 
     # ### end Alembic commands ###
@@ -81,7 +82,7 @@ def downgrade():
             existing_type=sa.VARCHAR(length=250),
             type_=sa.Enum('ADMIN', 'USER', name='role'),
             existing_nullable=True,
-            postgresql_using="role::text::role"
+            postgresql_using="CASE WHEN role IN ('admin', 'ADMIN') THEN 'ADMIN' ELSE 'USER' END::role"
         )
         batch_op.drop_column('phone')
         batch_op.drop_column('username')
