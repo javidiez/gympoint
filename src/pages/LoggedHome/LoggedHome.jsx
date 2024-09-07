@@ -26,12 +26,37 @@ export const LoggedHome = () => {
     <>
       <Navbar />
       <div className="container">
-        <div className="row">
-          <div className="col-12 col-7">
+        <div className="row align-items-center pb-5">
+          <div className="col-12 col-sm-8 mb-4">
             <ClassesList />
           </div>
-          <div className="col-12 col-5">
-            <Shortcuts/>
+          <div className="col-12 col-sm-4">
+            <div className="row mb-3 gap-3 justify-content-evenly">
+              <div className="col-5 col-sm-12">
+                <Shortcuts title={"Mis reservas"} icon={<span className="material-symbols-outlined fs-1">
+                  event_available
+                </span>} link={''} />
+              </div>
+              <div className="col-5 col-sm-12">
+                <Shortcuts title={"Reservar clase"} icon={<span className="material-symbols-outlined fs-1">
+                  calendar_add_on
+                </span>} link={''} />
+              </div>
+            </div>
+            <div className="row gap-3 justify-content-evenly">
+              <div className="col-5 col-sm-12">
+                <Shortcuts title={"Mi gimnasio"} icon={<span className="material-symbols-outlined fs-1">
+                  apartment
+                </span>} link={''} />
+              </div>
+              <div className="col-5 col-sm-12">
+                <Shortcuts title={"Mi perfil"} icon={<span className="material-symbols-outlined fs-1">
+                  person
+                </span>} link={''} />
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>

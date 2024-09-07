@@ -5,6 +5,13 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
 
     const [users, setUsers] = useState(localStorage.getItem('users') || []);
+    const [disciplines, setDisciplines] = useState(localStorage.getItem('disciplines') || []);
+    const [classes, setClasses] = useState(localStorage.getItem('classes') || []);
+    const [favorites, setFavorites] = useState(localStorage.getItem('favorites') || []);
+    const [teachers, setTeachers] = useState(localStorage.getItem('teachers') || []);
+    const [inscriptions, setInscriptions] = useState(localStorage.getItem('inscriptions') || []);
+    const [rooms, setRooms] = useState(localStorage.getItem('rooms') || []);
+    const [gyms, setGyms] = useState(localStorage.getItem('gyms') || []);
     const [userId, setUserId] = useState(localStorage.getItem('userId') || ''); 
     const [username, setUsername] = useState(localStorage.getItem('username') || '');
     const [name, setName] = useState(localStorage.getItem('name') || '');
@@ -13,6 +20,12 @@ export const AppProvider = ({ children }) => {
 	const [password, setPassword] = useState('');
 	const [token, setToken] = useState(localStorage.getItem('token') || '')
 	const [role, setRole] = useState(localStorage.getItem('role') || '')
+	const [disciplineName, setDisciplineName] = useState(localStorage.getItem('disciplineName') || '')
+	const [disciplineDescription, setDisciplineDescription] = useState(localStorage.getItem('disciplineDescription') || '')
+	const [disciplineEffort, setDisciplineEffort] = useState(localStorage.getItem('disciplineEffort') || '')
+	const [disciplineImage, setDisciplineImage] = useState(localStorage.getItem('disciplineImage') || '')
+
+
 
     
 
@@ -103,9 +116,42 @@ export const AppProvider = ({ children }) => {
 		setUserId('');
 	}
 
+	const addDisciplines = async () => {
+		try {
+			// Enviar la solicitud POST usando fetch
+			const response = await fetch('http://127.0.0.1:5000/add/disciplines', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name,
+					description,
+					image,
+                    effort
+				}),
+			});
 
-    const store = {users, name, email, password, username, lastname, role, token, userId}
-    const actions = {signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers}
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			if (data) {
+				setDisciplines([...disciplines, data]);
+				setDisciplineName(data.name);
+				setDisciplineDescription(data.description);
+                setDisciplineImage(data.image);
+                setDisciplineEffort(data.effort);
+			} else {
+				console.error("Token no recibido:", data);
+			}
+		} catch (error) {
+			console.error("Network error:", error);
+		}
+	};
+
+    const store = {users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms}
+    const actions = {signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort}
 
     return (
         <AppContext.Provider value={{ store, actions }}>

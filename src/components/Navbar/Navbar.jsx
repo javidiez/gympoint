@@ -7,6 +7,7 @@ import logo from "../../assets/img/logo_gym.png"
 
 
 
+
 export const Navbar = () => {
 
     const { store, actions } = useAppContext();
@@ -18,6 +19,25 @@ export const Navbar = () => {
         navigate('/')
     }
 
+    const closeOffcanvasAndNavigate = (path) => {
+        // Cierra el offcanvas manualmente usando JavaScript puro
+        const offcanvasElement = document.getElementById('offcanvasRight');
+        offcanvasElement.classList.remove('show');
+        offcanvasElement.setAttribute('aria-hidden', 'true');
+        offcanvasElement.setAttribute('style', 'visibility: hidden;');
+        
+        const backdrop = document.querySelector('.offcanvas-backdrop');
+        if (backdrop) {
+            backdrop.remove();
+        }
+
+        navigate(path);
+    };
+
+    const handleAdmin = () => {
+        navigate('/admin')
+    }
+
     return (
         <>
             <button className="btn btn-dark my-4 mx-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span className="material-symbols-outlined fs-1">
@@ -25,45 +45,54 @@ export const Navbar = () => {
             </span></button>
             <div className={styles.logo_text}>
                 <div className="d-flex gap-3 align-items-center">
+                    <button onClick={handleAdmin} className="btn btn-danger">Administrador</button>
                     <p className="text-light fs-3 fw-bold">Gym Point</p>
                     <img src={logo} className={styles.logo} />
                 </div>
             </div>
 
 
-            <div className="offcanvas offcanvas-start border-end bg-dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div className="offcanvas offcanvas-start border-end bg-dark" tabIndex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                 <div className="offcanvas-header">
                     <h5 className="offcanvas-title text-light fs-4" id="offcanvasRightLabel">Bienvenid@ {username}</h5>
                     <button type="button" className="btn-close bg-secondary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-body text-light mt-4">
                     <ul className={`${styles.menu} fs-4 d-flex flex-column gap-4 list-group`}>
-                        <li className="d-flex align-items-center gap-3">
-                            <span class="material-symbols-outlined fs-2">
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                           
+                                <span className="material-symbols-outlined fs-2 me-3">
+                                    home
+                                </span>
+                                <span>Inicio</span>
+                            
+                        </li>
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                            <span className="material-symbols-outlined fs-2 me-3">
                                 calendar_month
                             </span>
                             <span>Reservar</span>
                         </li>
-                        <li className="d-flex align-items-center gap-3">
-                            <span class="material-symbols-outlined fs-2">
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                            <span className="material-symbols-outlined fs-2 me-3">
                                 fitness_center
                             </span>
                             <span>Clases</span>
                         </li>
-                        <li className="d-flex align-items-center gap-3">
-                            <span class="material-symbols-outlined fs-2">
-                                directions_bike
-                            </span>
-                            <span>Disciplinas</span>
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/disciplines')}>
+                                <span className="material-symbols-outlined fs-2 me-3">
+                                    directions_bike
+                                </span>
+                                <span>Disciplinas</span>
                         </li>
-                        <li className="d-flex align-items-center gap-3">
-                            <span class="material-symbols-outlined fs-2">
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                            <span className="material-symbols-outlined fs-2 me-3">
                                 accessibility_new
                             </span>
                             <span>Equipo humano</span>
                         </li>
-                        <li className="d-flex align-items-center gap-3">
-                            <span class="material-symbols-outlined fs-2">
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                            <span className="material-symbols-outlined fs-2 me-3">
                                 person
                             </span>
                             <span>Mi Perfil</span>

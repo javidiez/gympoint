@@ -29,17 +29,18 @@ class User(db.Model):
 class Class_(db.Model):
     __tablename__ = 'classes'
     id = db.Column(db.Integer, primary_key=True)
-    discipline_id = db.Column(db.Integer, db.ForeignKey('disciplines.id'))
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'))
-    date = db.Column(db.Date)
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    discipline_id = db.Column(db.Integer, db.ForeignKey('disciplines.id'), nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
     kal = db.Column(db.Integer)
-    room = db.Column(db.String(250))
-    type = db.Column(db.String(250))
+    room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'), nullable=False)
+    type = db.Column(db.String(250), nullable=False)
     
     discipline = db.relationship('Discipline', backref='classes')
     teacher = db.relationship('Teacher', backref='classes')
+    room = db.relationship('Room', backref='classes')
     
     def serialize(self):
         return {
@@ -69,6 +70,7 @@ class Discipline(db.Model):
     name = db.Column(db.String(250), nullable=False)
     description = db.Column(db.Text)
     effort = db.Column(db.Enum(Effort))
+    image = db.Column(db.String(250))
     
     def serialize(self):
         return{
@@ -82,6 +84,7 @@ class Teacher(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
     lastname = db.Column(db.String(250), nullable=False)
+    image = db.Column(db.String(250))
 
     def serialize(self):
         return {
@@ -150,3 +153,26 @@ class Favorite(db.Model):
                 "name": self.discipline.name
             }
         }
+
+class Gym(db.Model):
+    __tablename__ = 'gyms'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=False)
+    phone = db.Column(db.String(250))
+    street = db.Column(db.String(250))
+    location = db.Column(db.String(250))
+    logo = db.Column(db.String(250))
+    description = db.Column(db.Text)
+    
+class Room(db.Model):
+    __tablename__ = 'rooms'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=True)
+    capacity = db.Column(db.Integer)
+    
+    def serialize(self):
+        return{
+            "name": self.name,
+            "capacity": self.capacity
+        }
+    

@@ -12,7 +12,7 @@ export const Class_ = ({ effort, name, time, room, teacher }) => {
 
     return (
         <div className="table-responsive">
-            <table class={`table align-middle table-sm text-center table-borderless table-dark mt-5 fs-5`}>
+            <table className={`table align-middle table-sm text-center table-borderless table-dark mt-5 fs-5`}>
                 <thead>
                     <tr className={styles.tableHeader}>
                         <th scope="col"></th>

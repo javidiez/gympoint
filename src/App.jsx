@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./pages/Home/Home";
 import { LoggedHome } from "./pages/LoggedHome/LoggedHome";
+import { Disciplines } from "./pages/Disciplines/Disciplines";
+import { Admin } from "./pages/Admin/Admin";
 
 const App = () => {
 
@@ -25,6 +27,8 @@ const App = () => {
 					<Route path="/home" element={<Home />} />
 					<Route path="/index.html" element={<Home />} />
 					<Route path="/in" element={<LoggedHome />} />
+					<Route path="/disciplines" element={<Disciplines />} />
+					<Route path="/admin" element={<Admin />} />
 					<Route path="*" element={<NotFoundRedirect />} />
 				</Routes>
 			</BrowserRouter>

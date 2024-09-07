@@ -14,7 +14,7 @@ def create_app():
     app.config.from_object('backend.config.Config')
     
         # Configurar tu clave secreta
-    app.config['JWT_SECRET_KEY'] = 'claveSuperSecreta'  # Cambia esto a una clave secreta fuerte en producción
+    app.config['JWT_SECRET_KEY'] = 'cl4v35uperS3cr371846'  # Cambia esto a una clave secreta fuerte en producción
 
     # Inicializar JWTManager
     jwt = JWTManager(app)
