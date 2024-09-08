@@ -52,9 +52,14 @@ class Class_(db.Model):
                 "name": self.teacher.name,
                 "lastname": self.teacher.lastname
                 },
+            "room":{
+                "name": self.room.name
+                },
             "date": self.date,
             "start_time": self.start_time,
-            "end_time": self.end_time
+            "end_time": self.end_time,
+            "kal": self.kal,
+            "type": self.type
         }
 
 
@@ -91,6 +96,7 @@ class Teacher(db.Model):
 
     def serialize(self):
         return {
+            "id":self.id,
             "name": self.name,
             "lastname": self.lastname,
             "image": self.image,
@@ -160,6 +166,18 @@ class Gym(db.Model):
     logo = db.Column(db.String(250))
     description = db.Column(db.Text)
     
+    def serialize(self):
+        return{
+            "id": self.id,
+            "name": self.name,
+            "capacity": self.phone,
+            "street": self.street,
+            "location": self.location,
+            "logo": self.logo,
+            "description": self.description,
+            "phone": self.phone
+        }
+    
 class Room(db.Model):
     __tablename__ = 'rooms'
     id = db.Column(db.Integer, primary_key=True)
@@ -168,6 +186,7 @@ class Room(db.Model):
     
     def serialize(self):
         return{
+            "id":self.id,
             "name": self.name,
             "capacity": self.capacity
         }

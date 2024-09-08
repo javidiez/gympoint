@@ -24,9 +24,25 @@ export const AppProvider = ({ children }) => {
 	const [disciplineDescription, setDisciplineDescription] = useState(localStorage.getItem('disciplineDescription') || '')
 	const [disciplineEffort, setDisciplineEffort] = useState(localStorage.getItem('disciplineEffort') || '')
 	const [disciplineImage, setDisciplineImage] = useState(localStorage.getItem('disciplineImage') || '')
-
-
-
+	const [teacherName, setTeacherName] = useState(localStorage.getItem('teacherName') || '')
+	const [teacherLastname, setTeacherLastname] = useState(localStorage.getItem('teacherLastname') || '')
+	const [teacherImage, setTeacherImage] = useState(localStorage.getItem('teacherImage') || '')
+	const [teacherJob, setTeacherJob] = useState(localStorage.getItem('teacherJob') || '')
+	const [roomName, setRoomName] = useState(localStorage.getItem('roomName') || '')
+	const [roomCapacity, setRoomCapacity] = useState(localStorage.getItem('roomCapacity') || '')
+	const [gymName, setGymName] = useState(localStorage.getItem('gymName') || '')
+	const [gymDescription, setGymDescription] = useState(localStorage.getItem('gymDescription') || '')
+	const [gymImage, setGymImage] = useState(localStorage.getItem('gymImage') || '')
+	const [gymPhone, setGymPhone] = useState(localStorage.getItem('gymPhone') || '')
+	const [gymStreet, setGymStreet] = useState(localStorage.getItem('gymStreet') || '')
+	const [gymLocation, setGymLocation] = useState(localStorage.getItem('gymLocation') || '')
+	const [classStartTime, setClassStartTime] = useState(localStorage.getItem('classStartTime') || '')
+	const [classEndTime, setClassEndTime] = useState(localStorage.getItem('classEndTime') || '')
+	const [classDiscipline, setClassDiscipline] = useState(localStorage.getItem('classDiscipline') || '')
+	const [classRoom, setClassRoom] = useState(localStorage.getItem('classRoom') || '')
+	const [classTeacher, setClassTeacher] = useState(localStorage.getItem('classTeacher') || '')
+	const [classKal, setClassKal] = useState(localStorage.getItem('classKal') || '')
+	const [classDate, setClassDate] = useState(localStorage.getItem('classDate') || '')
 
 
 	const signUp = async () => {
@@ -161,7 +177,7 @@ export const AppProvider = ({ children }) => {
 			const data = await response.json();
 			setDisciplines([...data]);
 		} catch (error) {
-			console.error('There was an error fetching the users!', error);
+			console.error('There was an error fetching the disciplines!', error);
 		}
 	};
 
@@ -186,6 +202,272 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
+	const addTeacher = async () => {
+		try {
+			// Enviar la solicitud POST usando fetch
+			const response = await fetch('http://127.0.0.1:5000/add/teacher', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name: teacherName,
+					lastname: teacherLastname,
+					job: teacherJob,
+					image: teacherImage
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			if (data) {
+				setTeachers([...teachers, data]);
+				setTeacherName(data.name);
+				setTeacherLastname(data.lastname);
+				setTeacherJob(data.job);
+				setTeacherImage(data.image);
+			} else {
+				console.error("Token no recibido:", data);
+			}
+		} catch (error) {
+			console.error("Network error:", error);
+		}
+	};
+
+	const getTeachers = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/teachers');
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			setTeachers([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the teachers!', error);
+		}
+	};
+
+	const deleteTeacher = async (id) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/delete/teacher/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Network response was not ok ${response.statusText}`);
+			}
+
+			setTeachers(teachers.filter(teacher => teacher.id !== id));
+
+			console.log('Teacher deleted successfully');
+		} catch (error) {
+			console.error('There was an error deleting teacher:', error);
+		}
+	};
+
+	const addRoom = async () => {
+		try {
+			// Enviar la solicitud POST usando fetch
+			const response = await fetch('http://127.0.0.1:5000/add/room', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name: roomName,
+					capacity: roomCapacity
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			if (data) {
+				setRooms([...rooms, data]);
+				setRoomName(data.name);
+				setRoomCapacity(data.capacity);
+			} else {
+				console.error("Room no recibido:", data);
+			}
+		} catch (error) {
+			console.error("Network error:", error);
+		}
+	};
+
+	const getRooms = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/rooms');
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			setRooms([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the rooms!', error);
+		}
+	};
+
+	const deleteRoom = async (id) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/delete/room/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Network response was not ok ${response.statusText}`);
+			}
+
+			setRooms(rooms.filter(room => room.id !== id));
+
+			console.log('Room deleted successfully');
+		} catch (error) {
+			console.error('There was an error deleting room:', error);
+		}
+	};
+
+	const addGym = async () => {
+		try {
+			// Enviar la solicitud POST usando fetch
+			const response = await fetch('http://127.0.0.1:5000/add/gym', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name: gymName,
+					description: gymDescription,
+					location: gymLocation,
+					phone: gymPhone,
+					street: gymStreet,
+					logo: gymImage
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			if (data) {
+				setGyms([...gyms, data]);
+				setGymName(data.name);
+				setGymDescription(data.description);
+				setGymImage(data.logo);
+				setGymLocation(data.location);
+				setGymStreet(data.street);
+				setGymPhone(data.phone);
+			} else {
+				console.error("Gym no recibido:", data);
+			}
+		} catch (error) {
+			console.error("Network error:", error);
+		}
+	};
+
+	const deleteGym = async (id) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/delete/gym/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Network response was not ok ${response.statusText}`);
+			}
+
+			setGyms(gyms.filter(gym => gym.id !== id));
+
+			console.log('Gym deleted successfully');
+		} catch (error) {
+			console.error('There was an error deleting gym:', error);
+		}
+	};
+
+	const getGyms = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/gyms');
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			setGyms([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the gyms!', error);
+		}
+	};
+
+	const getClasses = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/classes');
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			setClasses([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the gyms!', error);
+		}
+	};
+
+	const addClasses = async () => {
+		try {
+			// Enviar la solicitud POST usando fetch
+			const response = await fetch('http://127.0.0.1:5000/add/class', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					discipline: classDiscipline,
+					startTime: classStartTime,
+					endTime: classEndTime,
+					room: classRoom,
+					teacher: classTeacher,
+					kal: classKal,
+					date: classDate
+				}),
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			if (data) {
+				setClasses([...classes, data]);
+				setClassDiscipline(data.discipline);
+				setClassStartTime(data.startTime);
+				setClassEndTime(data.endTime);
+				setClassRoom(data.room);
+				setClassTeacher(data.teacher);
+				setClassKal(data.kal);
+				setClassDate(data.date);
+			} else {
+				console.error("Class no recibido:", data);
+			}
+		} catch (error) {
+			console.error("Network error:", error);
+		}
+	};
+
+
 	const addImages = async (formData) => {
 		try {
 
@@ -207,12 +489,12 @@ export const AppProvider = ({ children }) => {
 			console.error("Network error:", error);
 			return null;
 		}
-	}
+	};
 
 
-	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms }
+	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate }
 	
-	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline }
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClasses, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate}
 
 	return (
 		<AppContext.Provider value={{ store, actions }}>

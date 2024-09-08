@@ -7,13 +7,17 @@ import bodyPump from "../../assets/img/body-pump.jpg"
 import { Disciplines } from "../Disciplines/Disciplines";
 import styles from "./admin.module.css"
 import { DisciplineAdmin } from "../../components/DisciplinesAdmin/DisciplinesAdmin";
+import { TeachersAdmin } from "../../components/TeachersAdmin/TeachersAdmin";
+import { RoomsAdmin } from "../../components/RoomsAdmin/RoomsAdmin";
+import { GymsAdmin } from "../../components/GymsAdmin/GymsAdmin";
+import { ClassAdmin } from "../../components/ClassAdmin/ClassAdmin";
 
 
 
 export const Admin = () => {
 
     const { store, actions } = useAppContext();
-    const { token, role, classes, inscriptions, rooms, gyms, teachers } = store;
+    const { token, role, classes, inscriptions, rooms, gyms } = store;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,47 +64,7 @@ export const Admin = () => {
                     </li>
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
-                    <div className="tab-pane fade show active" id="pills-classes" role="tabpanel" aria-labelledby="pills-classes-tab" tabIndex="0">
-                        <div className="d-flex align-items-center">
-                            <p className='text-light my-5 fs-1 fw-bold'>Clases</p>
-                            <button onClick={() => navigate('/create-class')} className="btn btn-warning fs-5 ms-5 p-0 px-2 py-1">Crear</button>
-                        </div>
-                        <table className='table table-striped table-hover table-dark'>
-                            <thead>
-                                <tr className="fs-5">
-                                    <th className='text-light'>#</th>
-                                    <th className='text-light'>Esfuerzo (sacar palabra)</th>
-                                    <th className='text-light'>Disciplina</th>
-                                    <th className='text-light'>Horario</th>
-                                    <th className='text-light'>Sala</th>
-                                    <th className='text-light'>Profesor</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {classes.map((class_, index) => (
-                                    <tr key={class_.id}>
-                                        <td>
-                                            <span className='text-light'>{index + 1}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{class_.name}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{class_.is_admin ? <b>Administrador</b> : <b>Usuario</b>}</span>
-                                        </td>
-                                        <td className='text-end'>
-                                            <span onClick={() => deleteDiscipline(class_.id)} className="material-symbols-outlined text-light me-2 delete-icon">
-                                                delete
-                                            </span>
-                                            <span onClick={() => editDiscipline(class_.id)} className="material-symbols-outlined text-light delete-icon">
-                                                edit
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                <ClassAdmin/>
                     <div className="tab-pane fade" id="pills-inscriptions" role="tabpanel" aria-labelledby="pills-inscriptions-tab" tabIndex="0">
                         <div className="d-flex align-items-center">
                             <p className='text-light my-5 fs-1 fw-bold'>Reservas</p>
@@ -142,122 +106,9 @@ export const Admin = () => {
                         </table>
                     </div>
                         <DisciplineAdmin/>
-                    <div className="tab-pane fade" id="pills-teachers" role="tabpanel" aria-labelledby="pills-teachers-tab" tabIndex="0">
-                        <div className="d-flex align-items-center">
-                            <p className='text-light my-5 fs-1 fw-bold'>Equipo humano</p>
-                            <button className="btn btn-warning fs-5 ms-5 p-0 px-2 py-1">Crear</button>
-                        </div>
-                        <table className='table table-striped table-hover table-dark'>
-                            <thead>
-                                <tr className="fs-5">
-                                    <th className='text-light'>#</th>
-                                    <th className='text-light'>Imagen</th>
-                                    <th className='text-light'>Nombre</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {teachers.map((teacher, index) => (
-                                    <tr key={teacher.id}>
-                                        <td>
-                                            <span className='text-light'>{index + 1}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{teacher.name}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{teacher.is_admin ? <b>Administrador</b> : <b>Usuario</b>}</span>
-                                        </td>
-                                        <td className='text-end'>
-                                            <span onClick={() => deleteDiscipline(teacher.id)} className="material-symbols-outlined text-light me-2 delete-icon">
-                                                delete
-                                            </span>
-                                            <span onClick={() => editDiscipline(teacher.id)} className="material-symbols-outlined text-light delete-icon">
-                                                edit
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="tab-pane fade" id="pills-rooms" role="tabpanel" aria-labelledby="pills-rooms-tab" tabIndex="0">
-                        <div className="d-flex align-items-center">
-                            <p className='text-light my-5 fs-1 fw-bold'>Salas</p>
-                            <button className="btn btn-warning fs-5 ms-5 p-0 px-2 py-1">Crear</button>
-                        </div>
-                        <table className='table table-striped table-hover table-dark'>
-                            <thead>
-                                <tr className="fs-5">
-                                    <th className='text-light'>#</th>
-                                    <th className='text-light'>Nombre</th>
-                                    <th className='text-light'>Capacidad</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {rooms.map((room, index) => (
-                                    <tr key={room.id}>
-                                        <td>
-                                            <span className='text-light'>{index + 1}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{room.name}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{room.is_admin ? <b>Administrador</b> : <b>Usuario</b>}</span>
-                                        </td>
-                                        <td className='text-end'>
-                                            <span onClick={() => deleteDiscipline(room.id)} className="material-symbols-outlined text-light me-2 delete-icon">
-                                                delete
-                                            </span>
-                                            <span onClick={() => editDiscipline(room.id)} className="material-symbols-outlined text-light delete-icon">
-                                                edit
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="tab-pane fade" id="pills-gyms" role="tabpanel" aria-labelledby="pills-gyms-tab" tabIndex="0">
-                        <div className="d-flex align-items-center">
-                            <p className='text-light my-5 fs-1 fw-bold'>Centros</p>
-                            <button className="btn btn-warning fs-5 ms-5 p-0 px-2 py-1">Crear</button>
-                        </div>
-                        <table className='table table-striped table-hover table-dark'>
-                            <thead>
-                                <tr className="fs-5">
-                                    <th className='text-light'>#</th>
-                                    <th className='text-light'>Nombre</th>
-                                    <th className='text-light'>Calle</th>
-                                    <th className='text-light'>Provincia</th>
-                                    <th className='text-light'>Teléfono</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {gyms.map((gym, index) => (
-                                    <tr key={gym.id}>
-                                        <td>
-                                            <span className='text-light'>{index + 1}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{gym.name}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{gym.is_admin ? <b>Administrador</b> : <b>Usuario</b>}</span>
-                                        </td>
-                                        <td className='text-end'>
-                                            <span onClick={() => deleteDiscipline(gym.id)} className="material-symbols-outlined text-light me-2 delete-icon">
-                                                delete
-                                            </span>
-                                            <span onClick={() => editDiscipline(gym.id)} className="material-symbols-outlined text-light delete-icon">
-                                                edit
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                        <TeachersAdmin/>
+                        <RoomsAdmin/>
+                        <GymsAdmin/>
                 </div>
             </div>
 

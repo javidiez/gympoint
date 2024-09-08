@@ -1,0 +1,15 @@
+.teacher_image{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.modal_shadow{
+    border: 1px solid white;
+    border-radius: 10px;
+}
+
+.icons_edit_trash{
+    cursor: pointer;
+  }
+  

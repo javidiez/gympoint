@@ -174,7 +174,7 @@ def get_teachers():
 
 #! CREATE TEACHERS
 
-@api.route('/add/teacher')
+@api.route('/add/teacher', methods=['POST'])
 def add_teacher():
     data = request.json
     if 'name' not in data or 'lastname' not in data:
@@ -183,7 +183,8 @@ def add_teacher():
     new_teacher = Teacher(
         name=data['name'],
         image=data['image'],
-        lastname=data['lastname']
+        lastname=data['lastname'],
+        job=data['job']
     )
 
     db.session.add(new_teacher)
@@ -250,7 +251,7 @@ def get_classes():
 
 #! CREATE CLASSES
 
-@api.route('/add/class')
+@api.route('/add/class', methods=['POST'])
 def add_class():
     data = request.json
 
@@ -342,7 +343,7 @@ def get_rooms():
 
 #! CREATE ROOM
 
-@api.route('/add/room')
+@api.route('/add/room', methods=['POST'])
 def add_room():
     data = request.json
 
@@ -530,7 +531,7 @@ def get_gyms():
 
 #! CREATE GYM
 
-@api.route('/add/gym')
+@api.route('/add/gym', methods=['POST'])
 def add_gym():
     data = request.json
 
@@ -566,7 +567,7 @@ def delete_gym(gym_id):
     try:
         db.session.delete(gym)
         db.session.commit()
-        return jsonify({"message": "RGymoom deleted successfully"}), 200
+        return jsonify({"message": "Gym deleted successfully"}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500

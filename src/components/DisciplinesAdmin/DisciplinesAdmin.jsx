@@ -22,7 +22,7 @@ export const DisciplineAdmin = () => {
         e.preventDefault();
 
         if (!disciplineName || !disciplineEffort) {
-            console.error("Name and type are required");
+            console.error("Name and effort are required");
             return;
         }
         if (!disciplineImage) {
@@ -111,7 +111,7 @@ export const DisciplineAdmin = () => {
                                     </div>
                                     <div className="d-flex justify-content-end gap-3">
                                         <button type="button" className="btn btn-secondary fs-5 " data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" className="btn btn-warning fs-5 me-3" data-bs-dismiss="modal">Crear</button>
+                                        <button type="submit" className="btn btn-warning fs-5 me-3" data-bs-dismiss="modal" disabled={isImageUploading}>Crear</button>
                                     </div>
                                 </form>
                             </div>

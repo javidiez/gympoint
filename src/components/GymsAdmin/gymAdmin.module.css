@@ -1,0 +1,9 @@
+.gym_image{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.icons_edit_trash{
+    cursor: pointer;
+}
