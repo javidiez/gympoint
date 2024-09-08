@@ -1,0 +1,35 @@
+.discipline_image{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.icons_edit_trash{
+    cursor: pointer;
+}
+
+.low{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(0, 187, 16);
+}
+
+.moderate{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(255, 174, 0);
+}
+
+.high{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(252, 40, 40);
+}
+
+.modal_shadow{
+    border: 1px solid white;
+    border-radius: 10px;
+}

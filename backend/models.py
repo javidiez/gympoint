@@ -71,12 +71,14 @@ class Discipline(db.Model):
     description = db.Column(db.Text)
     effort = db.Column(db.Enum(Effort))
     image = db.Column(db.String(250))
-    
+
     def serialize(self):
         return{
+            "id":self.id,
             "name": self.name,
             "description": self.description,
-            "effort": self.effort.value if self.effort else None
+            "effort": self.effort.value if self.effort else None,
+            "image": self.image
         }
 
 class Teacher(db.Model):
@@ -85,20 +87,14 @@ class Teacher(db.Model):
     name = db.Column(db.String(250), nullable=False)
     lastname = db.Column(db.String(250), nullable=False)
     image = db.Column(db.String(250))
+    job = db.Column(db.String(250))
 
     def serialize(self):
         return {
-            "discipline": {
-                "name": self.discipline.name,
-                "effort": self.discipline.effort.value if self.discipline.effort else None
-            },
-            "teacher": {
-                "name": self.teacher.name,
-                "lastname": self.teacher.lastname
-            },
-            "date": self.date,
-            "start_time": self.start_time,
-            "end_time": self.end_time
+            "name": self.name,
+            "lastname": self.lastname,
+            "image": self.image,
+            "job": self.job
         }
 
 class Inscription(db.Model):

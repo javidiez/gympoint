@@ -92,7 +92,7 @@ def get_disciplines():
 
 #! CREATE DISCIPLINE
 
-@api.route('/add/discipline')
+@api.route('/add/discipline', methods=['POST'])
 def add_discipline():
     data = request.json
     if 'name' not in data or 'image' not in data:
@@ -301,7 +301,7 @@ def edit_class(class_id):
     if class_ is None:
         return jsonify({"message": "Teacher not found"}), 404
 
-    data = request.json 
+    data = request.json
 
     if not data:
         return jsonify({"message": "No data provided"}), 400
@@ -611,8 +611,8 @@ def edit_gym(gym_id):
 
 #! ADD IMAGE CLOUDINARY
 
-@api.route('/subirfoto', methods=['POST'])
-def subirfoto():
+@api.route('/upload/image', methods=['POST'])
+def add_image():
     file_to_upload = request.files['file']
     if file_to_upload:
         upload = cloudinary.uploader.upload(file_to_upload)

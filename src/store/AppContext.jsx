@@ -4,19 +4,19 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
-    const [users, setUsers] = useState(localStorage.getItem('users') || []);
-    const [disciplines, setDisciplines] = useState(localStorage.getItem('disciplines') || []);
-    const [classes, setClasses] = useState(localStorage.getItem('classes') || []);
-    const [favorites, setFavorites] = useState(localStorage.getItem('favorites') || []);
-    const [teachers, setTeachers] = useState(localStorage.getItem('teachers') || []);
-    const [inscriptions, setInscriptions] = useState(localStorage.getItem('inscriptions') || []);
-    const [rooms, setRooms] = useState(localStorage.getItem('rooms') || []);
-    const [gyms, setGyms] = useState(localStorage.getItem('gyms') || []);
-    const [userId, setUserId] = useState(localStorage.getItem('userId') || ''); 
-    const [username, setUsername] = useState(localStorage.getItem('username') || '');
-    const [name, setName] = useState(localStorage.getItem('name') || '');
-    const [lastname, setLastname] = useState(localStorage.getItem('lastname') || '');
-    const [email, setEmail] = useState('');
+	const [users, setUsers] = useState(localStorage.getItem('users') || []);
+	const [disciplines, setDisciplines] = useState(localStorage.getItem('disciplines') || []);
+	const [classes, setClasses] = useState(localStorage.getItem('classes') || []);
+	const [favorites, setFavorites] = useState(localStorage.getItem('favorites') || []);
+	const [teachers, setTeachers] = useState(localStorage.getItem('teachers') || []);
+	const [inscriptions, setInscriptions] = useState(localStorage.getItem('inscriptions') || []);
+	const [rooms, setRooms] = useState(localStorage.getItem('rooms') || []);
+	const [gyms, setGyms] = useState(localStorage.getItem('gyms') || []);
+	const [userId, setUserId] = useState(localStorage.getItem('userId') || '');
+	const [username, setUsername] = useState(localStorage.getItem('username') || '');
+	const [name, setName] = useState(localStorage.getItem('name') || '');
+	const [lastname, setLastname] = useState(localStorage.getItem('lastname') || '');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [token, setToken] = useState(localStorage.getItem('token') || '')
 	const [role, setRole] = useState(localStorage.getItem('role') || '')
@@ -27,9 +27,9 @@ export const AppProvider = ({ children }) => {
 
 
 
-    
 
-    const signUp = async () => {
+
+	const signUp = async () => {
 		try {
 			// Enviar la solicitud POST usando fetch
 			const response = await fetch('http://127.0.0.1:5000/users/signup', {
@@ -41,7 +41,7 @@ export const AppProvider = ({ children }) => {
 					username,
 					email,
 					password,
-                    role
+					role
 				}),
 			});
 
@@ -58,7 +58,7 @@ export const AppProvider = ({ children }) => {
 				setToken(data.access_token);
 				setUsername(data.username);
 				setEmail(data.email);
-                setRole(data.role);
+				setRole(data.role);
 				await logIn(email, password);
 			} else {
 				console.error("Token no recibido:", data);
@@ -68,7 +68,7 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-    const logIn = async (email, password) => {
+	const logIn = async (email, password) => {
 		try {
 			const resp = await fetch(`http://127.0.0.1:5000/login`, {
 				method: "POST",
@@ -103,7 +103,7 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-    const logOut = () => {
+	const logOut = () => {
 		localStorage.removeItem('token');
 		localStorage.removeItem('username');
 		localStorage.removeItem('password');
@@ -114,21 +114,21 @@ export const AppProvider = ({ children }) => {
 		setEmail('');
 		setPassword('');
 		setUserId('');
-	}
+	};
 
 	const addDisciplines = async () => {
 		try {
 			// Enviar la solicitud POST usando fetch
-			const response = await fetch('http://127.0.0.1:5000/add/disciplines', {
+			const response = await fetch('http://127.0.0.1:5000/add/discipline', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					name,
-					description,
-					image,
-                    effort
+					name: disciplineName,
+					description: disciplineDescription,
+					effort: disciplineEffort,
+					image: disciplineImage
 				}),
 			});
 
@@ -140,8 +140,8 @@ export const AppProvider = ({ children }) => {
 				setDisciplines([...disciplines, data]);
 				setDisciplineName(data.name);
 				setDisciplineDescription(data.description);
-                setDisciplineImage(data.image);
-                setDisciplineEffort(data.effort);
+				setDisciplineEffort(data.effort);
+				setDisciplineImage(data.image);
 			} else {
 				console.error("Token no recibido:", data);
 			}
@@ -150,14 +150,75 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-    const store = {users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms}
-    const actions = {signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort}
+	const getDisciplines = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/disciplines');
 
-    return (
-        <AppContext.Provider value={{ store, actions }}>
-            {children}
-        </AppContext.Provider>
-    );
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			setDisciplines([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the users!', error);
+		}
+	};
+
+	const deleteDiscipline = async (id) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/delete/discipline/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Network response was not ok ${response.statusText}`);
+			}
+
+			setDisciplines(disciplines.filter(discipline => discipline.id !== id));
+
+			console.log('Disciplines deleted successfully');
+		} catch (error) {
+			console.error('There was an error deleting discipline:', error);
+		}
+	};
+
+	const addImages = async (formData) => {
+		try {
+
+			const response = await fetch(`http://127.0.0.1:5000/upload/image`, {
+				method: 'POST',
+				body: formData
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			// Cuando obtiene la respuesta el response se pasa a formato json y lo guarda en fotosubida
+			// Se hace el return de fotosubida
+			const fotosubida = await response.json();
+			return fotosubida; //
+		}
+		catch (error) {
+			console.error("Network error:", error);
+			return null;
+		}
+	}
+
+
+	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms }
+	
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline }
+
+	return (
+		<AppContext.Provider value={{ store, actions }}>
+			{children}
+		</AppContext.Provider>
+	);
 };
 
 const useAppContext = () => useContext(AppContext);

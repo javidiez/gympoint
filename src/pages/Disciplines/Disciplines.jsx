@@ -21,9 +21,13 @@ export const Disciplines = () => {
     }
   }, [token])
 
+  const handleAdmin = () => {
+    navigate('/admin')
+}
+
   return (
     <>
-      <Navbar />
+      <Navbar button={<button onClick={handleAdmin} className="btn btn-danger">Administrador</button>} />
       <div className="container">
         <h1 className="mb-5">Disciplinas</h1>
         <div className="row">

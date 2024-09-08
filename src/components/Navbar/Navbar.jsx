@@ -8,7 +8,7 @@ import logo from "../../assets/img/logo_gym.png"
 
 
 
-export const Navbar = () => {
+export const Navbar = ({buttonAdmin}) => {
 
     const { store, actions } = useAppContext();
     const { username } = store;
@@ -40,15 +40,17 @@ export const Navbar = () => {
 
     return (
         <>
-            <button className="btn btn-dark my-4 mx-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span className="material-symbols-outlined fs-1">
+        <div className="d-flex align-items-center justify-content-between mx-2">
+            <button className="btn btn-dark my-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><span className="material-symbols-outlined fs-1">
                 menu
             </span></button>
             <div className={styles.logo_text}>
-                <div className="d-flex gap-3 align-items-center">
-                    <button onClick={handleAdmin} className="btn btn-danger">Administrador</button>
-                    <p className="text-light fs-3 fw-bold">Gym Point</p>
+                <div className="d-flex align-items-center">
+                    {buttonAdmin}
+                    <p className="text-light text-nowrap fs-3 fw-bold">Gym Point</p>
                     <img src={logo} className={styles.logo} />
                 </div>
+            </div>
             </div>
 
 
