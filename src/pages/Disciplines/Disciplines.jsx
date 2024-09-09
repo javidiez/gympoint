@@ -11,8 +11,8 @@ import styles from "./disciplines.module.css"
 
 export const Disciplines = () => {
 
-  const { store } = useAppContext();
-  const { token } = store;
+  const { store, actions } = useAppContext();
+  const { token, disciplines } = store;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,40 +21,27 @@ export const Disciplines = () => {
     }
   }, [token])
 
+  useEffect(() => {
+    actions.getDisciplines()
+}, [])
+
   const handleAdmin = () => {
     navigate('/admin')
 }
 
   return (
     <>
-      <Navbar button={<button onClick={handleAdmin} className="btn btn-danger">Administrador</button>} />
+      <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
       <div className="container">
         <h1 className="mb-5">Disciplinas</h1>
         <div className="row">
+          {disciplines.map(discipline => 
             <div className="col-12 col-sm-3 mb-5 fs-2 text-center">
-                <p className="pb-2">Body Pump</p>
-                <img className={styles.img_disciplines} src={bodyPump}/>
-            </div>
-            <div className="col-12 col-sm-3 mb-5 fs-2 text-center">
-                <p className="pb-2">Body Pump</p>
-                <img className={styles.img_disciplines} src={bodyPump}/>
-            </div>
-            <div className="col-12 col-sm-3 mb-5 fs-2 text-center">
-                <p className="pb-2">Body Pump</p>
-                <img className={styles.img_disciplines} src={bodyPump}/>
-            </div>
-            <div className="col-12 col-sm-3 mb-5 fs-2 text-center">
-                <p className="pb-2">Body Pump</p>
-                <img className={styles.img_disciplines} src={bodyPump}/>
-            </div>
-            <div className="col-12 col-sm-3 mb-5 fs-2 text-center">
-                <p className="pb-2">Body Pump</p>
-                <img className={styles.img_disciplines} src={bodyPump}/>
-            </div>
-            <div className="col-12 col-sm-3 mb-5 fs-2 text-center">
-                <p className="pb-2">Body Pump</p>
-                <img className={styles.img_disciplines} src={bodyPump}/>
-            </div>
+            <p className="pb-2">{discipline.name}</p>
+            <img className={styles.img_disciplines} src={discipline.image}/>
+        </div>
+          )}
+
         </div>
         
       </div>

@@ -142,16 +142,16 @@ export const DisciplineAdmin = () => {
                                 <td>
                                     <img src={discipline.image} className={styles.discipline_image} />
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{discipline.name}</span>
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     {discipline.effort && discipline.effort == "low" ?
                                         <div className="d-flex gap-3 align-items-center"><span className='text-light'>Leve</span><div className={styles.low}></div> </div> : discipline.effort == "moderate"
                                             ? <div className="d-flex gap-3 align-items-center"><span className='text-light'>Moderado</span><div className={styles.moderate}></div></div>
                                             : <div className="d-flex gap-3 align-items-center"><span className='text-light'>Alto</span><div className={styles.high}></div></div>}
                                 </td>
-                                <td className='text-end'>
+                                <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteDiscipline(discipline.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>

@@ -14,7 +14,6 @@ export const ClassesList = () => {
 
     return(
         <div>
-            <p className="fs-1 text-light">Clases de hoy</p>
             <Class_/>
         </div>
     )

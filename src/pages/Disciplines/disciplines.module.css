@@ -1,4 +1,12 @@
 .img_disciplines{
-    width: 300px;
+    width: 200px;
+    height: 200px;
     border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.img_disciplines:hover {
+    transform: scale(1.05); /* Escala el icono un 20% más grande */
 }

@@ -30,7 +30,7 @@ export const LoggedHome = () => {
     <>
       <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
       <div className="container">
-        <div className="row align-items-center pb-5">
+        <div className="row pt-4 pb-5">
           <div className="col-12 col-sm-8 mb-4">
             <ClassesList />
           </div>

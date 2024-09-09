@@ -94,14 +94,14 @@ export const RoomsAdmin = () => {
                                 <td>
                                     <span className='text-light'>{index + 1}</span>
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{room.name} </span>
                                 </td>
-                                <td>
-                                    <span className='text-light'>{room.capacity}</span>
+                                <td className="text-nowrap">
+                                    <span className='text-light'>{room.capacity} personas</span>
                                 </td>
                                 
-                                <td className='text-end'>
+                                <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteRoom(room.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>

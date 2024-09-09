@@ -43,6 +43,7 @@ export const AppProvider = ({ children }) => {
 	const [classTeacher, setClassTeacher] = useState(localStorage.getItem('classTeacher') || '')
 	const [classKal, setClassKal] = useState(localStorage.getItem('classKal') || '')
 	const [classDate, setClassDate] = useState(localStorage.getItem('classDate') || '')
+	const [classType, setClassType] = useState(localStorage.getItem('classType') || '')
 
 
 	const signUp = async () => {
@@ -427,7 +428,7 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-	const addClasses = async () => {
+	const addClass = async () => {
 		try {
 			// Enviar la solicitud POST usando fetch
 			const response = await fetch('http://127.0.0.1:5000/add/class', {
@@ -436,13 +437,13 @@ export const AppProvider = ({ children }) => {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					discipline: classDiscipline,
-					startTime: classStartTime,
-					endTime: classEndTime,
-					room: classRoom,
-					teacher: classTeacher,
-					kal: classKal,
-					date: classDate
+					discipline_id: classDiscipline,
+					start_time: classStartTime,
+					end_time: classEndTime,
+					room_id: classRoom,
+					teacher_id: classTeacher,
+					date: classDate,
+					type: classType
 				}),
 			});
 
@@ -457,13 +458,34 @@ export const AppProvider = ({ children }) => {
 				setClassEndTime(data.endTime);
 				setClassRoom(data.room);
 				setClassTeacher(data.teacher);
-				setClassKal(data.kal);
 				setClassDate(data.date);
+				setClassType(data.classType);
 			} else {
 				console.error("Class no recibido:", data);
 			}
 		} catch (error) {
 			console.error("Network error:", error);
+		}
+	};
+
+	const deleteClass = async (id) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/delete/class/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Network response was not ok ${response.statusText}`);
+			}
+
+			setClasses(classes.filter(class_ => class_.id !== id));
+
+			console.log('Class deleted successfully');
+		} catch (error) {
+			console.error('There was an error deleting the class:', error);
 		}
 	};
 
@@ -492,9 +514,9 @@ export const AppProvider = ({ children }) => {
 	};
 
 
-	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate }
+	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType }
 	
-	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClasses, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate}
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass}
 
 	return (
 		<AppContext.Provider value={{ store, actions }}>

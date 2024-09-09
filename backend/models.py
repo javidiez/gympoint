@@ -34,7 +34,6 @@ class Class_(db.Model):
     date = db.Column(db.Date, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
-    kal = db.Column(db.Integer)
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'), nullable=False)
     type = db.Column(db.String(250), nullable=False)
     
@@ -44,9 +43,10 @@ class Class_(db.Model):
     
     def serialize(self):
         return {
+            "id": self.id,
             "discipline":{
                 "name":self.discipline.name,
-                "effort":self.discipline.effort
+                "effort":self.discipline.effort.value if self.discipline.effort else None,
                 },
             "teacher":{
                 "name": self.teacher.name,
@@ -55,10 +55,9 @@ class Class_(db.Model):
             "room":{
                 "name": self.room.name
                 },
-            "date": self.date,
-            "start_time": self.start_time,
-            "end_time": self.end_time,
-            "kal": self.kal,
+            "date": self.date.isoformat(),
+            "start_time": self.start_time.strftime('%H:%M'),
+            "end_time": self.end_time.strftime('%H:%M'), 
             "type": self.type
         }
 

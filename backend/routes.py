@@ -264,7 +264,6 @@ def add_class():
         date = data['date'],
         start_time = data['start_time'],
         end_time = data['end_time'],
-        kal = data['kal'],
         room_id = data['room_id'],
         type = data['type']
     )
@@ -273,7 +272,7 @@ def add_class():
     db.session.commit()
     
     return jsonify({
-        "msg": "Persona creada exitosamente",
+        "msg": "Clase creada exitosamente",
         **new_class.serialize()}), 201
 
 #! DELETE CLASSES

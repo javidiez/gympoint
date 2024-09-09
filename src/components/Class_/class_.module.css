@@ -13,3 +13,24 @@
 .tbody_table td{
     padding-top: 1.5rem;
 }
+
+.low {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(0, 187, 16);
+}
+
+.moderate {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(255, 174, 0);
+}
+
+.high {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(252, 40, 40);
+}

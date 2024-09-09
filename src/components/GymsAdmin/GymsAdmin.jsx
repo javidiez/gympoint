@@ -147,20 +147,20 @@ export const GymsAdmin = () => {
                                 <td>
                                     <img src={gym.logo} className={styles.gym_image} />
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{gym.name}</span>
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{gym.street}</span>
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{gym.location}</span>
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{gym.phone}</span>
                                 </td>
                                 
-                                <td className='text-end'>
+                                <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteGym(gym.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>

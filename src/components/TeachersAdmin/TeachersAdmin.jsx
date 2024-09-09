@@ -135,14 +135,14 @@ export const TeachersAdmin = () => {
                                 <td>
                                     <img src={teacher.image} className={styles.teacher_image} />
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{teacher.name} {teacher.lastname}</span>
                                 </td>
-                                <td>
+                                <td className="text-nowrap">
                                     <span className='text-light'>{teacher.job}</span>
                                 </td>
                                 
-                                <td className='text-end'>
+                                <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteTeacher(teacher.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>
