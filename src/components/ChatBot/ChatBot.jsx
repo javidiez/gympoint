@@ -23,7 +23,6 @@ export const ChatBot = () => {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer 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"
                 },
                 body: JSON.stringify({
                     model: 'gpt-3.5-turbo',
