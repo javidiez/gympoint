@@ -489,7 +489,7 @@ def get_users_inscriptions(user_id):
 
 #! ADD INSCRIPTIONS
 
-@api.route("/add/inscripcion/<int:inscription_id>/<int:user_id>", methods=['POST'])
+@api.route("/add/inscription/<int:class_id>/<int:user_id>", methods=['POST'])
 def add_inscription(class_id, user_id):
 
     new_inscription = Inscription(

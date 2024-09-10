@@ -114,7 +114,7 @@ export const TeachersAdmin = () => {
 
 
             </div>
-            <div className="table-responsive">
+            <div className="table-responsive pb-5">
                 <table className='table table-striped table-hover table-dark align-middle'>
                     <thead>
                         <tr className="fs-5">
@@ -126,7 +126,7 @@ export const TeachersAdmin = () => {
 
                         </tr>
                     </thead>
-                    <tbody className="fs-4 ">
+                    <tbody className="fs-5 ">
                         {teachers.map((teacher, index) => (
                             <tr key={teacher.id}>
                                 <td>

@@ -4,7 +4,7 @@ import { Home } from "./pages/Home/Home";
 import { LoggedHome } from "./pages/LoggedHome/LoggedHome";
 import { Disciplines } from "./pages/Disciplines/Disciplines";
 import { Admin } from "./pages/Admin/Admin";
-import { CreateClass } from "./pages/CreateClass/CreateClass";
+import { MyInscriptions } from "./pages/MyInscriptions/MyInscriptions";
 
 const App = () => {
 
@@ -30,7 +30,7 @@ const App = () => {
 					<Route path="/in" element={<LoggedHome />} />
 					<Route path="/disciplines" element={<Disciplines />} />
 					<Route path="/admin" element={<Admin />} />
-					<Route path="/create-class" element={<CreateClass />} />
+					<Route path="/my-inscriptions" element={<MyInscriptions />} />
 					<Route path="*" element={<NotFoundRedirect />} />
 				</Routes>
 			</BrowserRouter>

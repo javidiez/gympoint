@@ -121,7 +121,7 @@ export const DisciplineAdmin = () => {
 
 
             </div>
-            <div className="table-responsive">
+            <div className="table-responsive pb-5">
                 <table className='table table-striped table-hover table-dark align-middle'>
                     <thead>
                         <tr className="fs-5">
@@ -133,7 +133,7 @@ export const DisciplineAdmin = () => {
 
                         </tr>
                     </thead>
-                    <tbody className="fs-4 ">
+                    <tbody className="fs-5">
                         {disciplines.map((discipline, index) => (
                             <tr key={discipline.id}>
                                 <td>

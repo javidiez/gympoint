@@ -88,7 +88,7 @@ export const RoomsAdmin = () => {
 
                         </tr>
                     </thead>
-                    <tbody className="fs-4 ">
+                    <tbody className="fs-5">
                         {rooms.map((room, index) => (
                             <tr key={room.id}>
                                 <td>

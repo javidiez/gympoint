@@ -148,7 +148,7 @@ export const ClassAdmin = () => {
 
                         </tr>
                     </thead>
-                    <tbody className="fs-4 ">
+                    <tbody className="fs-5">
                         {classes.map((class_, index) => (
                             <tr key={class_.id}>
                                 <td>
@@ -170,7 +170,7 @@ export const ClassAdmin = () => {
                                     <span className='text-light'>{class_.room.name.charAt(0).toUpperCase() + class_.room.name.slice(1)}</span>
                                 </td>
                                 <td className="text-nowrap">
-                                    <span className='text-light pe-2'>
+                                    <span className='text-light pe-1'>
                                         {class_.teacher.name.charAt(0).toUpperCase() + class_.teacher.name.slice(1)}
                                     </span>
                                     <span className='text-light'>

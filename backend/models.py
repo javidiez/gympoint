@@ -113,7 +113,9 @@ class Inscription(db.Model):
     
     def serialize(self):
         return {
+            "id": self.id,
             "user": {
+                "user_id": self.user.id,
                 "name": self.user.name,
                 "lastname": self.user.lastname,
                 "username": self.user.username,
@@ -121,15 +123,21 @@ class Inscription(db.Model):
             },
             "class": {
                 "discipline": {
-                    "name": self.class_.discipline.name
+                    "name": self.class_.discipline.name,
+                    "effort": self.class_.discipline.effort.value if self.class_.discipline.effort else None,
                 },
                 "teacher": {
                     "name": self.class_.teacher.name,
                     "lastname": self.class_.teacher.lastname
                 },
-                "date": self.class_.date,
-                "start_time": self.class_.start_time,
-                "end_time": self.class_.end_time
+                "room": {
+                    "name": self.class_.room.name
+                },
+                "class_id": self.class_.id,
+                "date": self.class_.date.isoformat(),
+                "start_time": self.class_.start_time.strftime('%H:%M'),
+                "end_time": self.class_.end_time.strftime('%H:%M'), 
+                "type": self.class_.type
             }
         }
 

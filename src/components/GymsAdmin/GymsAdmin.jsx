@@ -138,7 +138,7 @@ export const GymsAdmin = () => {
 
                         </tr>
                     </thead>
-                    <tbody className="fs-4 ">
+                    <tbody className="fs-5">
                         {gyms.map((gym, index) => (
                             <tr key={gym.id}>
                                 <td>

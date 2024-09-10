@@ -11,6 +11,7 @@ import { TeachersAdmin } from "../../components/TeachersAdmin/TeachersAdmin";
 import { RoomsAdmin } from "../../components/RoomsAdmin/RoomsAdmin";
 import { GymsAdmin } from "../../components/GymsAdmin/GymsAdmin";
 import { ClassAdmin } from "../../components/ClassAdmin/ClassAdmin";
+import { InscriptionAdmin } from "../../components/InscriptionsAdmin/InscriptionsAdmin";
 
 
 
@@ -64,51 +65,13 @@ export const Admin = () => {
                     </li>
                 </ul>
                 <div className="tab-content" id="pills-tabContent">
-                <ClassAdmin/>
-                    <div className="tab-pane fade" id="pills-inscriptions" role="tabpanel" aria-labelledby="pills-inscriptions-tab" tabIndex="0">
-                        <div className="d-flex align-items-center">
-                            <p className='text-light my-5 fs-1 fw-bold'>Reservas</p>
-                            <button className="btn btn-warning fs-5 ms-5 p-0 px-2 py-1">Crear</button>
-                        </div>
-                        <table className='table table-striped table-hover table-dark'>
-                            <thead>
-                                <tr className="fs-5">
-                                    <th className='text-light'>#</th>
-                                    <th className='text-light'>Disciplina</th>
-                                    <th className='text-light'>Horario</th>
-                                    <th className='text-light'>Sala</th>
-                                    <th className='text-light'>Usuario</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {inscriptions.map((inscription, index) => (
-                                    <tr key={inscription.id}>
-                                        <td>
-                                            <span className='text-light'>{index + 1}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{inscription.name}</span>
-                                        </td>
-                                        <td>
-                                            <span className='text-light'>{inscription.is_admin ? <b>Administrador</b> : <b>Usuario</b>}</span>
-                                        </td>
-                                        <td className='text-end'>
-                                            <span onClick={() => deleteDiscipline(inscription.id)} className="material-symbols-outlined text-light me-2 delete-icon">
-                                                delete
-                                            </span>
-                                            <span onClick={() => editDiscipline(inscription.id)} className="material-symbols-outlined text-light delete-icon">
-                                                edit
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                        <DisciplineAdmin/>
-                        <TeachersAdmin/>
-                        <RoomsAdmin/>
-                        <GymsAdmin/>
+                    <ClassAdmin />
+                    <InscriptionAdmin />
+                    <DisciplineAdmin />
+                    <TeachersAdmin />
+                    <RoomsAdmin />
+                    <GymsAdmin />
+
                 </div>
             </div>
 

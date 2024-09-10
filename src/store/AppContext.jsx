@@ -4,7 +4,15 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
-	const [users, setUsers] = useState(localStorage.getItem('users') || []);
+	const [users, setUsers] = useState(() => {
+		const storedUsers = localStorage.getItem('users');
+		try {
+			return storedUsers ? JSON.parse(storedUsers) : [];
+		} catch (error) {
+			console.error("Error parsing users from localStorage:", error);
+			return [];
+		}
+	});
 	const [disciplines, setDisciplines] = useState(localStorage.getItem('disciplines') || []);
 	const [classes, setClasses] = useState(localStorage.getItem('classes') || []);
 	const [favorites, setFavorites] = useState(localStorage.getItem('favorites') || []);
@@ -44,6 +52,8 @@ export const AppProvider = ({ children }) => {
 	const [classKal, setClassKal] = useState(localStorage.getItem('classKal') || '')
 	const [classDate, setClassDate] = useState(localStorage.getItem('classDate') || '')
 	const [classType, setClassType] = useState(localStorage.getItem('classType') || '')
+	const [inscriptionClass, setInscriptionClass] = useState(localStorage.getItem('inscriptionClass') || '')
+	const [inscriptionUser, setInscriptionUser] = useState(localStorage.getItem('inscriptionUser') || '')
 
 
 	const signUp = async () => {
@@ -69,8 +79,11 @@ export const AppProvider = ({ children }) => {
 			if (data.access_token) {
 				// Guardar el token en el estado
 
-				setUsers([...users, data]);
-				// Guardar el token en sessionStorage
+				const updatedUsers = [...users, data];
+				setUsers(updatedUsers);
+	
+				// Guardar el nuevo valor en localStorage
+				localStorage.setItem('users', JSON.stringify(updatedUsers));
 				localStorage.setItem('token', data.access_token);
 				setToken(data.access_token);
 				setUsername(data.username);
@@ -96,21 +109,21 @@ export const AppProvider = ({ children }) => {
 
 			if (data.token) {
 
-				// Guardar el token en sessionStorage
+
 				localStorage.setItem('token', data.token);
 				localStorage.setItem('name', data.name);
 				localStorage.setItem('lastname', data.lastname);
 				localStorage.setItem('username', data.username);
 				localStorage.setItem('email', data.email);
-				localStorage.setItem('userId', data.userId);  // Guardar userId
-				localStorage.setItem('role', data.role); // Guardar is_admin como string 'true' o 'false'
+				localStorage.setItem('userId', data.userId);
+				localStorage.setItem('role', data.role);
 				setToken(data.token);
 				setName(data.name);
 				setLastname(data.lastname);
 				setUsername(data.username);
 				setEmail(data.email);
 				setUserId(data.userId);
-				setRole(data.role); // Asegúrate de que sea booleano
+				setRole(data.role);
 				console.log("Success:", data);
 			} else {
 				console.error("Token no recibido:", data);
@@ -453,13 +466,13 @@ export const AppProvider = ({ children }) => {
 			const data = await response.json();
 			if (data) {
 				setClasses([...classes, data]);
-				setClassDiscipline(data.discipline);
-				setClassStartTime(data.startTime);
-				setClassEndTime(data.endTime);
-				setClassRoom(data.room);
-				setClassTeacher(data.teacher);
-				setClassDate(data.date);
-				setClassType(data.classType);
+				setClassDiscipline(data.discipline_id || '');
+				setClassStartTime(data.start_time || '');
+				setClassEndTime(data.end_time || '');
+				setClassRoom(data.room_id || '');
+				setClassTeacher(data.teacher_id || '');
+				setClassDate(data.date || '');
+				setClassType(data.type || '');
 			} else {
 				console.error("Class no recibido:", data);
 			}
@@ -513,10 +526,77 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
+	const addInscription = async (class_id, user_id) => {
+		try {
+			// Enviar la solicitud POST usando fetch
+			const response = await fetch(`http://127.0.0.1:5000/add/inscription/${class_id}/${user_id}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					class_id: class_id,
+					user_id: user_id
+				}),
+			});
 
-	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType }
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			if (data) {
+				setInscriptions([...inscriptions, data]);
+				setInscriptionClass(data.class_id);
+				setInscriptionUser(data.user_id);
+			} else {
+				console.error("Inscripciñón no recibida:", data);
+			}
+		} catch (error) {
+			console.error("Network error:", error);
+		}
+	};
+
+	const getInscriptions = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/inscriptions');
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			console.log('Inscriptions fetched:', data); 
+			setInscriptions([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the inscriptions!', error);
+		}
+	};
+
+	const deleteInscription = async (id) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/delete/inscription/${id}`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error(`Network response was not ok ${response.statusText}`);
+			}
+
+			setInscriptions(inscriptions.filter(inscription => inscription.id !== id));
+
+			console.log('Inscription deleted successfully');
+		} catch (error) {
+			console.error('There was an error deleting the inscription:', error);
+		}
+	};
+
+
+	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType, inscriptionClass, inscriptionUser }
 	
-	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass}
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription}
 
 	return (
 		<AppContext.Provider value={{ store, actions }}>

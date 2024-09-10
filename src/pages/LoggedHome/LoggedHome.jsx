@@ -7,13 +7,14 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import useAppContext from "../../store/AppContext";
 import { ClassesList } from "../../components/ClassesList/ClassesList";
 import { Shortcuts } from "../../components/Shortcuts/Shortcuts";
+import { ChatBot } from "../../components/ChatBot/ChatBot";
 
 
 
 export const LoggedHome = () => {
 
   const { store } = useAppContext();
-  const { token } = store;
+  const { token, role } = store;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,18 +29,18 @@ export const LoggedHome = () => {
 
   return (
     <>
-      <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
+      <Navbar buttonAdmin={role == "admin" ? <button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button> : ''} />
       <div className="container">
         <div className="row pt-4 pb-5">
-          <div className="col-12 col-sm-8 mb-4">
+          <div className="col-12 col-sm-10 mb-4">
             <ClassesList />
           </div>
-          <div className="col-12 col-sm-4">
+          <div className="col-12 col-sm-2">
             <div className="row mb-3 gap-3 justify-content-evenly">
               <div className="col-5 col-sm-12">
                 <Shortcuts title={"Mis reservas"} icon={<span className="material-symbols-outlined fs-1">
                   event_available
-                </span>} link={''} />
+                </span>} link={'/my-inscriptions'} />
               </div>
               <div className="col-5 col-sm-12">
                 <Shortcuts title={"Reservar clase"} icon={<span className="material-symbols-outlined fs-1">
@@ -59,7 +60,6 @@ export const LoggedHome = () => {
                 </span>} link={''} />
               </div>
             </div>
-
 
           </div>
         </div>
