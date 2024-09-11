@@ -1,0 +1,36 @@
+.circle_effort{
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+}
+
+.tableHeader th {
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+
+}
+
+.tbody_table td{
+    padding: 1.5rem;
+}
+
+.low {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(0, 187, 16);
+}
+
+.moderate {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(255, 174, 0);
+}
+
+.high {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: rgb(252, 40, 40);
+}

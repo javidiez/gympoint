@@ -20,19 +20,18 @@ export const Navbar = ({buttonAdmin}) => {
     }
 
     const closeOffcanvasAndNavigate = (path) => {
-        // Cierra el offcanvas manualmente usando JavaScript puro
-        const offcanvasElement = document.getElementById('offcanvasRight');
-        offcanvasElement.classList.remove('show');
-        offcanvasElement.setAttribute('aria-hidden', 'true');
-        offcanvasElement.setAttribute('style', 'visibility: hidden;');
-        
-        const backdrop = document.querySelector('.offcanvas-backdrop');
-        if (backdrop) {
-            backdrop.remove();
-        }
-
-        navigate(path);
-    };
+        // Obtener el elemento del offcanvas
+        const offcanvasElement = document.getElementById("offcanvasRight");
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement); // Obtener la instancia de Bootstrap
+    
+        // Escuchar cuando el offcanvas esté completamente cerrado
+        offcanvasElement.addEventListener("hidden.bs.offcanvas", () => {
+          navigate(path); // Navegar una vez cerrado el offcanvas
+        });
+    
+        // Cerrar el offcanvas utilizando el método de Bootstrap
+        bsOffcanvas.hide();
+      };
 
     const handleAdmin = () => {
         navigate('/admin')
@@ -69,7 +68,7 @@ export const Navbar = ({buttonAdmin}) => {
                                 <span>Inicio</span>
                             
                         </li>
-                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/classes')}>
                             <span className="material-symbols-outlined fs-2 me-3">
                                 calendar_month
                             </span>
@@ -87,13 +86,13 @@ export const Navbar = ({buttonAdmin}) => {
                                 </span>
                                 <span>Disciplinas</span>
                         </li>
-                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/teachers')}>
                             <span className="material-symbols-outlined fs-2 me-3">
                                 accessibility_new
                             </span>
                             <span>Equipo humano</span>
                         </li>
-                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
+                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/my-profile')}>
                             <span className="material-symbols-outlined fs-2 me-3">
                                 person
                             </span>

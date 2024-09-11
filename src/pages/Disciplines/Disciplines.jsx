@@ -32,7 +32,7 @@ export const Disciplines = () => {
   return (
     <>
       <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
-      <div className="container">
+      <div className={`container ${styles.container}`}>
         <h1 className="mb-5">Disciplinas</h1>
         <div className="row">
           {disciplines.map(discipline => 

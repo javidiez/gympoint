@@ -43,14 +43,14 @@ export const LoggedHome = () => {
               <div className="col-5 col-sm-12">
                 <Shortcuts title={"Reservar clase"} icon={<span className="material-symbols-outlined fs-1">
                   calendar_add_on
-                </span>} link={''} />
+                </span>} link={'/classes'} />
               </div>
             </div>
             <div className="row gap-3 justify-content-evenly">
               <div className="col-5 col-sm-12">
                 <Shortcuts title={"Mi gimnasio"} icon={<span className="material-symbols-outlined fs-1">
                   apartment
-                </span>} link={''} />
+                </span>} link={'/gyms'} />
               </div>
               <div className="col-5 col-sm-12">
                 <Shortcuts title={"Mi perfil"} icon={<span className="material-symbols-outlined fs-1">

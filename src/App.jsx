@@ -6,6 +6,9 @@ import { Disciplines } from "./pages/Disciplines/Disciplines";
 import { Admin } from "./pages/Admin/Admin";
 import { MyInscriptions } from "./pages/MyInscriptions/MyInscriptions";
 import { MyProfile } from "./pages/MyProfile/MyProfile";
+import { Teachers } from "./pages/Teachers/Teachers";
+import { Gyms } from "./pages/Gyms/Gyms";
+import { Classes_ } from "./pages/Classes_/Classes_";
 
 const App = () => {
 
@@ -17,24 +20,27 @@ const App = () => {
 			navigate('/in');
 		}, [navigate]);
 
-		return null; 
+		return null;
 	};
 
 	return (
 		<div>
 			<BrowserRouter>
-				<Routes>
-					<Route path="" element={<Home />} />
-					<Route path="/" element={<Home />} />
-					<Route path="/home" element={<Home />} />
-					<Route path="/index.html" element={<Home />} />
-					<Route path="/in" element={<LoggedHome />} />
-					<Route path="/disciplines" element={<Disciplines />} />
-					<Route path="/admin" element={<Admin />} />
-					<Route path="/my-inscriptions" element={<MyInscriptions />} />
-					<Route path="/my-profile" element={<MyProfile />} />
-					<Route path="*" element={<NotFoundRedirect />} />
-				</Routes>
+					<Routes>
+						<Route path="" element={<Home />} />
+						<Route path="/" element={<Home />} />
+						<Route path="/home" element={<Home />} />
+						<Route path="/index.html" element={<Home />} />
+						<Route path="/in" element={<LoggedHome />} />
+						<Route path="/disciplines" element={<Disciplines />} />
+						<Route path="/admin" element={<Admin />} />
+						<Route path="/my-inscriptions" element={<MyInscriptions />} />
+						<Route path="/my-profile" element={<MyProfile />} />
+						<Route path="/teachers" element={<Teachers />} />
+						<Route path="/gyms" element={<Gyms />} />
+						<Route path="/classes" element={<Classes_ />} />
+						<Route path="*" element={<NotFoundRedirect />} />
+					</Routes>
 			</BrowserRouter>
 		</div>
 	);
