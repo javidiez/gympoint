@@ -7,6 +7,10 @@
     width: 5rem;
 }
 
-.logo_text{
+.logout{
+    color: rgb(247, 115, 115)
+}
 
+.logout:hover{
+    color: rgb(252, 74, 74)
 }

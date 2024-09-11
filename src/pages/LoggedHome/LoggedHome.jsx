@@ -7,8 +7,6 @@ import { Navbar } from "../../components/Navbar/Navbar";
 import useAppContext from "../../store/AppContext";
 import { ClassesList } from "../../components/ClassesList/ClassesList";
 import { Shortcuts } from "../../components/Shortcuts/Shortcuts";
-import { ChatBot } from "../../components/ChatBot/ChatBot";
-
 
 
 export const LoggedHome = () => {
@@ -57,7 +55,7 @@ export const LoggedHome = () => {
               <div className="col-5 col-sm-12">
                 <Shortcuts title={"Mi perfil"} icon={<span className="material-symbols-outlined fs-1">
                   person
-                </span>} link={''} />
+                </span>} link={'/my-profile'} />
               </div>
             </div>
 

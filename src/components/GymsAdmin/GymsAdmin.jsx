@@ -83,7 +83,7 @@ export const GymsAdmin = () => {
                     <div className={`${styles.modal_shadow} modal-dialog modal-lg`}>
                         <div className="modal-content bg-dark">
                             <div className="d-flex justify-content-between p-3">
-                                <h1 className="modal-title fs-5" id="exampleModalLabel">Crear persona</h1>
+                                <h1 className="modal-title fs-5" id="exampleModalLabel">Crear centro</h1>
                                 <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
                             </div>
                             <div className="modal-body">

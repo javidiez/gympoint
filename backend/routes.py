@@ -80,7 +80,65 @@ def login():
                     "lastname": user.lastname,
                     "username": user.username,
                     'userId': user.id,
-                    "role": user.role}), 201
+                    "role": user.role,
+                    "birthdate": user.birthdate,
+                    "image": user.image,
+                    "phone": user.phone}), 201
+
+#! GET USERS
+
+@api.route('/users')
+def get_users():
+    users = User.query.all()
+    return jsonify([user.serialize() for user in users])
+
+#! GET SINGLE USER
+
+@api.route('/user/<int:user_id>', methods=['GET'])
+def get_single_user(user_id):
+    users = User.query.filter_by(user_id=user_id).all()
+
+    if not users:
+        return jsonify({'error': 'No user found'}), 404
+
+    users_serialized = [user.serialize() for user in users]
+
+    return jsonify(users_serialized), 200
+
+
+#! EDIT USER
+
+@api.route('/edit/user/<int:user_id>', methods=['PUT'])
+def edit_user(user_id):
+    user = User.query.get(user_id)
+
+    if user is None:
+        return jsonify({"message": "User not found"}), 404
+
+    data = request.json
+
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+    try:
+        if 'name' in data:
+            user.name = data['name']
+        if 'lastname' in data:
+            user.lastname = data['lastname']
+        if 'image' in data:
+            user.image = data['image']
+        if 'birthdate'in data:
+            user.birthdate = data['birthdate']
+        if 'phone' in data:
+            user.phone = data['phone']
+
+        db.session.commit()
+
+        return jsonify({"message": "User updated successfully"}), 200
+
+    except Exception as e:
+        db.session.rollback()  # Revierte los cambios en caso de error
+        return jsonify({"error": str(e)}), 500
 
 
 #! GET DISCIPLINES
@@ -231,7 +289,7 @@ def edit_teacher(teacher_id):
         if 'lastname' in data:
             teacher.lastname = data['lastname']
         if 'image' in data:
-           teacher.image = data['image']
+            teacher.image = data['image']
 
         db.session.commit()
 

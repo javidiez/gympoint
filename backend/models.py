@@ -13,6 +13,7 @@ class User(db.Model):
     phone = db.Column(db.String(250))
     role = db.Column(db.String(100), default='user')
     is_active = db.Column(db.Boolean, default=True)
+    image = db.Column(db.String(250))
 
     def serialize(self):
         return {
@@ -23,7 +24,9 @@ class User(db.Model):
             "email": self.email,
             "birthdate": self.birthdate,
             "role": self.role,
-            "is_active": self.is_active
+            "is_active": self.is_active,
+            "image": self.image,
+            "phone": self.phone
         }
 
 class Class_(db.Model):

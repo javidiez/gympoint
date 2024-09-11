@@ -24,10 +24,13 @@ export const AppProvider = ({ children }) => {
 	const [username, setUsername] = useState(localStorage.getItem('username') || '');
 	const [name, setName] = useState(localStorage.getItem('name') || '');
 	const [lastname, setLastname] = useState(localStorage.getItem('lastname') || '');
-	const [email, setEmail] = useState('');
+	const [email, setEmail] = useState(localStorage.getItem('email') || '');
 	const [password, setPassword] = useState('');
 	const [token, setToken] = useState(localStorage.getItem('token') || '')
 	const [role, setRole] = useState(localStorage.getItem('role') || '')
+	const [userImage, setUserImage] = useState(localStorage.getItem('userImage') || '')
+	const [userPhone, setUserPhone] = useState(localStorage.getItem('userPhone') || '')
+	const [birthdate, setBirthdate] = useState(localStorage.getItem('birthdate') || '')
 	const [disciplineName, setDisciplineName] = useState(localStorage.getItem('disciplineName') || '')
 	const [disciplineDescription, setDisciplineDescription] = useState(localStorage.getItem('disciplineDescription') || '')
 	const [disciplineEffort, setDisciplineEffort] = useState(localStorage.getItem('disciplineEffort') || '')
@@ -85,9 +88,18 @@ export const AppProvider = ({ children }) => {
 				// Guardar el nuevo valor en localStorage
 				localStorage.setItem('users', JSON.stringify(updatedUsers));
 				localStorage.setItem('token', data.access_token);
+				localStorage.setItem('name', data.name);
+				localStorage.setItem('lastname', data.lastname);
+				localStorage.setItem('username', data.username);
+				localStorage.setItem('email', data.email);
+				localStorage.setItem('userId', data.userId);
+				localStorage.setItem('role', data.role);
 				setToken(data.access_token);
+				setName(data.name);
+				setLastname(data.lastname);
 				setUsername(data.username);
 				setEmail(data.email);
+				setUserId(data.userId);
 				setRole(data.role);
 				await logIn(email, password);
 			} else {
@@ -109,7 +121,6 @@ export const AppProvider = ({ children }) => {
 
 			if (data.token) {
 
-
 				localStorage.setItem('token', data.token);
 				localStorage.setItem('name', data.name);
 				localStorage.setItem('lastname', data.lastname);
@@ -117,6 +128,9 @@ export const AppProvider = ({ children }) => {
 				localStorage.setItem('email', data.email);
 				localStorage.setItem('userId', data.userId);
 				localStorage.setItem('role', data.role);
+				localStorage.setItem('userImage', data.image ? data.image : '');
+				localStorage.setItem('birthdate', data.birthdate);
+				localStorage.setItem('userPhone', data.phone);
 				setToken(data.token);
 				setName(data.name);
 				setLastname(data.lastname);
@@ -124,6 +138,9 @@ export const AppProvider = ({ children }) => {
 				setEmail(data.email);
 				setUserId(data.userId);
 				setRole(data.role);
+				setUserImage(data.image ? data.image : '');
+				setBirthdate(data.birthdate);
+				setUserPhone(data.phone);
 				console.log("Success:", data);
 			} else {
 				console.error("Token no recibido:", data);
@@ -139,12 +156,57 @@ export const AppProvider = ({ children }) => {
 		localStorage.removeItem('password');
 		localStorage.removeItem('email');
 		localStorage.removeItem('userId');
+		localStorage.removeItem('userImage');
+		localStorage.removeItem('birthdate');
+		localStorage.removeItem('userPhone');
 		setToken('');
 		setUsername('');
 		setEmail('');
 		setPassword('');
 		setUserId('');
+		setUserImage('');
+		setUserPhone('');
+		setBirthdate('');
 	};
+
+	const getUsers = async () => {
+		try {
+			const response = await fetch('http://127.0.0.1:5000/users');
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			setUsers([...data]);
+		} catch (error) {
+			console.error('There was an error fetching the users!', error);
+		}
+	};
+
+	const editUser = async (name, lastname, email, phone, image, birthdate) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/edit/user/${userId}`, {
+				method: "PUT",
+				body: JSON.stringify({ name, lastname, email, phone, image, birthdate }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			// Actualiza el usuario en la lista existente
+			setUsers({ ...users, users: users.map(user => (user.id === userId ? data : user)) });
+
+			console.log('User updated successfully:', data);
+		} catch (error) {
+			console.error('There was an error updating the user:', error);
+		}
+	}
 
 	const addDisciplines = async () => {
 		try {
@@ -502,7 +564,6 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-
 	const addImages = async (formData) => {
 		try {
 
@@ -594,9 +655,9 @@ export const AppProvider = ({ children }) => {
 	};
 
 
-	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType, inscriptionClass, inscriptionUser }
+	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType, inscriptionClass, inscriptionUser, userImage, birthdate, userPhone }
 	
-	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription}
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription, setUserImage, setBirthdate, setUserPhone, editUser, getUsers}
 
 	return (
 		<AppContext.Provider value={{ store, actions }}>

@@ -5,6 +5,7 @@ import { LoggedHome } from "./pages/LoggedHome/LoggedHome";
 import { Disciplines } from "./pages/Disciplines/Disciplines";
 import { Admin } from "./pages/Admin/Admin";
 import { MyInscriptions } from "./pages/MyInscriptions/MyInscriptions";
+import { MyProfile } from "./pages/MyProfile/MyProfile";
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
 					<Route path="/disciplines" element={<Disciplines />} />
 					<Route path="/admin" element={<Admin />} />
 					<Route path="/my-inscriptions" element={<MyInscriptions />} />
+					<Route path="/my-profile" element={<MyProfile />} />
 					<Route path="*" element={<NotFoundRedirect />} />
 				</Routes>
 			</BrowserRouter>

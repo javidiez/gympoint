@@ -104,10 +104,10 @@ export const Navbar = ({buttonAdmin}) => {
                 <div className="footer">
                     <hr className="text-secondary" />
                     <div className="d-flex align-items-center mb-3 btn" onClick={logOut} data-bs-dismiss="offcanvas">
-                        <span className="material-symbols-outlined ms-2 text-danger">
+                        <span className={`${styles.logout} material-symbols-outlined ms-2`}>
                             power_settings_new
                         </span>
-                        <p className="btn text-danger fs-4">Cerrar sesión</p>
+                        <p className={`btn ${styles.logout} fs-4`}>Cerrar sesión</p>
                     </div>
                 </div>
             </div>
