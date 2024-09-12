@@ -132,15 +132,15 @@ export const AppProvider = ({ children }) => {
 				localStorage.setItem('birthdate', data.birthdate);
 				localStorage.setItem('userPhone', data.phone);
 				setToken(data.token);
-				setName(data.name);
-				setLastname(data.lastname);
+				setName(data.name ? data.name : '');
+				setLastname(data.lastname ? data.lastname : '');
 				setUsername(data.username);
 				setEmail(data.email);
 				setUserId(data.userId);
 				setRole(data.role);
 				setUserImage(data.image ? data.image : '');
-				setBirthdate(data.birthdate);
-				setUserPhone(data.phone);
+				setBirthdate(data.birthdate ? data.birthdate: '');
+				setUserPhone(data.phone ? data.phone : '');
 				console.log("Success:", data);
 			} else {
 				console.error("Token no recibido:", data);
@@ -184,11 +184,13 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
-	const editUser = async (name, lastname, email, phone, image, birthdate) => {
+	const editUser = async (name, lastname, phone, image, birthdate) => {
 		try {
+			const body = JSON.stringify({ name, lastname, phone, image, birthdate });
+        console.log('Payload being sent:', body); 
 			const response = await fetch(`http://127.0.0.1:5000/edit/user/${userId}`, {
 				method: "PUT",
-				body: JSON.stringify({ name, lastname, email, phone, image, birthdate }),
+				body: JSON.stringify({ name, lastname, phone, image, birthdate }),
 				headers: {
 					"Content-Type": "application/json"
 				}
@@ -200,7 +202,7 @@ export const AppProvider = ({ children }) => {
 
 			const data = await response.json();
 			// Actualiza el usuario en la lista existente
-			setUsers({ ...users, users: users.map(user => (user.id === userId ? data : user)) });
+			setUsers(users.map(user => (user.id === userId ? data : user)));
 
 			console.log('User updated successfully:', data);
 		} catch (error) {

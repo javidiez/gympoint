@@ -39,15 +39,16 @@ class Class_(db.Model):
     end_time = db.Column(db.Time, nullable=False)
     room_id = db.Column(db.Integer, db.ForeignKey('rooms.id'), nullable=False)
     type = db.Column(db.String(250), nullable=False)
-    
+
     discipline = db.relationship('Discipline', backref='classes')
     teacher = db.relationship('Teacher', backref='classes')
     room = db.relationship('Room', backref='classes')
-    
+
     def serialize(self):
         return {
             "id": self.id,
             "discipline":{
+                "id": self.discipline.id,
                 "name":self.discipline.name,
                 "effort":self.discipline.effort.value if self.discipline.effort else None,
                 },
@@ -180,7 +181,6 @@ class Gym(db.Model):
         return{
             "id": self.id,
             "name": self.name,
-            "capacity": self.phone,
             "street": self.street,
             "location": self.location,
             "logo": self.logo,

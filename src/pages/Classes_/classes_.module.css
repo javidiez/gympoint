@@ -34,3 +34,11 @@
     border-radius: 50%;
     background-color: rgb(252, 40, 40);
 }
+
+.search{
+    border-radius: 5px;
+    border: 1px solid grey;
+    background-color: #212529;
+    outline: none;
+    padding: 5px;
+}

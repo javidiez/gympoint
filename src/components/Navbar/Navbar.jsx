@@ -72,13 +72,7 @@ export const Navbar = ({buttonAdmin}) => {
                             <span className="material-symbols-outlined fs-2 me-3">
                                 calendar_month
                             </span>
-                            <span>Reservar</span>
-                        </li>
-                        <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/in')}>
-                            <span className="material-symbols-outlined fs-2 me-3">
-                                fitness_center
-                            </span>
-                            <span>Clases</span>
+                            <span>Reservar clase</span>
                         </li>
                         <li className="d-flex" onClick={() => closeOffcanvasAndNavigate('/disciplines')}>
                                 <span className="material-symbols-outlined fs-2 me-3">

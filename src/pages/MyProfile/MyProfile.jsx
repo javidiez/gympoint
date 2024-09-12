@@ -10,7 +10,7 @@ import avatar from "../../assets/img/avatar.png"
 export const MyProfile = () => {
 
     const { store, actions } = useAppContext();
-    const { token, role, username, name, lastname, email, userImage, userPhone, birthdate } = store;
+    const { token, role, username, name, lastname, email, userImage, userPhone, birthdate, users, userId } = store;
     const navigate = useNavigate();
     const [isImageUploading, setIsImageUploading] = useState(false);
     const fileInputRef = useRef(null);
@@ -23,7 +23,7 @@ export const MyProfile = () => {
 
     useEffect(() => {
         actions.getUsers()
-    }, [])
+    }, [username, name, lastname,userImage, userPhone, birthdate])
 
     useEffect(() => {
         const storedImage = localStorage.getItem('userImage');
@@ -60,9 +60,18 @@ export const MyProfile = () => {
         }
     };
 
-    const editUser = (name, lastname, phone, image, birthdate) => {
-        actions.editUser(name, lastname, phone, image, birthdate)
+    const editUser = async (name, lastname, phone, image, birthdate) => {
+        await actions.editUser(name, lastname, phone, image, birthdate)
+        actions.getUsers();
     }
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     return (
         <>
@@ -81,7 +90,7 @@ export const MyProfile = () => {
                                     <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
                                 </div>
                                 <div className="py-4 justify-content-between row gap-4">
-                                <div className="col-12 col-sm-5">
+                                    <div className="col-12 col-sm-5">
                                         <label htmlFor="name" className="form-label fs-5">Nombre</label>
                                         <input type="text" className="form-control" id="name" value={name} onChange={(e) => actions.setName(e.target.value)} />
                                     </div>
@@ -95,11 +104,7 @@ export const MyProfile = () => {
                                     </div>
                                     <div className="col-12 col-sm-5">
                                         <label htmlFor="birthdate" className="form-label fs-5">Fecha de nacimiento</label>
-                                        <input type="date" className="form-control" id="birthdate" value={new Date(birthdate).toLocaleDateString('es-ES', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric'
-                                    })} onChange={(e) => actions.setBirthdate(e.target.value)} />
+                                        <input type="date" className="form-control" id="birthdate" value={birthdate ? formatDate(birthdate) : ''} onChange={(e) => actions.setBirthdate(e.target.value)} />
                                     </div>
                                     <div className="col-12">
                                         <label htmlFor="image" className="form-label fs-5">Foto</label>
@@ -107,58 +112,65 @@ export const MyProfile = () => {
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-end gap-3">
-                                        <button type="button" className="btn btn-secondary fs-5 " data-bs-dismiss="modal">Cerrar</button>
-                                        <button onClick={() => editUser(name, lastname, userPhone, userImage, birthdate)} type="submit" className="btn btn-warning fs-5 me-3" data-bs-dismiss="modal" disabled={isImageUploading}>Guardar</button>
+                                    <button type="button" className="btn btn-secondary fs-5 " data-bs-dismiss="modal">Cerrar</button>
+                                    <button onClick={() => editUser(name, lastname, userPhone, userImage, birthdate)} type="submit" className="btn btn-warning fs-5 me-3" data-bs-dismiss="modal" disabled={isImageUploading}>Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {Array.isArray(users) && users
+                    .filter(user => user.id == storedUserId)
+                    .map((user, index) => (
+                        <div className="border rounded my-5 p-4">
+                            <div className="row gap-4">
+                                <div className="row gap-5 col-12 col-sm-10">
+                                    <div className="row gap-4">
+                                        <div className="col-12 col-sm-3">
+                                            <label className="fs-5 pb-2 fw-bold">Nombre</label>
+                                            <p>{user.name ? user.name : 'Sin especificar'}</p>
+                                        </div>
+                                        <div className="col-12 col-sm-3">
+                                            <label className="fs-5 pb-2  fw-bold">Apellidos</label>
+                                            <p>{user.lastname ? user.lastname : 'Sin especificar'}</p>
+                                        </div>
+                                        <div className="col-12 col-sm-3">
+                                            <label className="fs-5 pb-2  fw-bold">Email</label>
+                                            <p>{user.email}</p>
+                                        </div>
                                     </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="border rounded my-5 p-4">
-                    <div className="row gap-4">
-                        <div className="row gap-5 col-12 col-sm-10">
-                            <div className="row gap-4">
-                                <div className="col-12 col-sm-3">
-                                    <label className="fs-5 pb-2 fw-bold">Nombre</label>
-                                    <p>{name}</p>
-                                </div>
-                                <div className="col-12 col-sm-3">
-                                    <label className="fs-5 pb-2  fw-bold">Apellidos</label>
-                                    <p>{lastname}</p>
-                                </div>
-                                <div className="col-12 col-sm-3">
-                                    <label className="fs-5 pb-2  fw-bold">Email</label>
-                                    <p>{email}</p>
-                                </div>
-                            </div>
-                            <div className="row gap-4">
-                                <div className="col-12 col-sm-3">
-                                    <label className="fs-5 pb-2 fw-bold">Fecha de nacimiento</label>
-                                    <p>{new Date(birthdate).toLocaleDateString('es-ES', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric'
-                                    })}</p>
-                                </div>
-                                <div className="col-12 col-sm-3">
-                                    <label className="fs-5 pb-2  fw-bold">Teléfono</label>
-                                    <p>{userPhone ? userPhone : 'Sin especificar'}</p>
-                                </div>
-                                <div className="col-12 col-sm-3">
-                                    <button className="btn btn-secondary">Cambiar contraseña</button>
-                                </div>
-                            </div>
+                                    <div className="row gap-4">
+                                        <div className="col-12 col-sm-3">
+                                            <label className="fs-5 pb-2 fw-bold">Fecha de nacimiento</label>
+                                            <p>{new Date(user.birthdate).toLocaleDateString('es-ES', {
+                                                day: '2-digit',
+                                                month: '2-digit',
+                                                year: 'numeric'
+                                            })}</p>
+                                        </div>
+                                        <div className="col-12 col-sm-3">
+                                            <label className="fs-5 pb-2  fw-bold">Teléfono</label>
+                                            <p>{user.phone ? user.phone : 'Sin especificar'}</p>
+                                        </div>
+                                        <div className="col-12 col-sm-3">
+                                            <button className="btn btn-secondary">Cambiar contraseña</button>
+                                        </div>
+                                    </div>
 
+                                </div>
+                                <div className="col-12 col-sm-2">
+                                    {user.image && user.image !== '' ? (
+                                        <img className={styles.avatar} src={user.image} alt="User Avatar" />
+                                    ) : (
+                                        <img className={styles.avatar} src={avatar} alt="Default Avatar" />
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div className="col-12 col-sm-2">
-                            {userImage && userImage !== '' ? (
-                                <img className={styles.avatar} src={userImage} alt="User Avatar" />
-                            ) : (
-                                <img className={styles.avatar} src={avatar} alt="Default Avatar" />
-                            )}
-                        </div>
-                    </div>
-                </div>
+                    )
+
+                    )}
+
             </div>
         </>
     )
