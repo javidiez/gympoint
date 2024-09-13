@@ -1,0 +1,7 @@
+.disciplineImage{
+    width: clamp(5rem,95vw, 40rem);
+    height: clamp(5rem, 50vh,40rem);
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 2rem 0rem;
+}

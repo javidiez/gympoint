@@ -9,6 +9,7 @@ import { MyProfile } from "./pages/MyProfile/MyProfile";
 import { Teachers } from "./pages/Teachers/Teachers";
 import { Gyms } from "./pages/Gyms/Gyms";
 import { Classes_ } from "./pages/Classes_/Classes_";
+import { DisciplineInfo } from "./pages/DisciplineInfo/DisciplineInfo";
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
 						<Route path="/teachers" element={<Teachers />} />
 						<Route path="/gyms" element={<Gyms />} />
 						<Route path="/classes" element={<Classes_ />} />
+						<Route path="/discipline/:id" element={<DisciplineInfo />} />
 						<Route path="*" element={<NotFoundRedirect />} />
 					</Routes>
 			</BrowserRouter>

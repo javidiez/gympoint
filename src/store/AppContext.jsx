@@ -35,6 +35,7 @@ export const AppProvider = ({ children }) => {
 	const [disciplineDescription, setDisciplineDescription] = useState(localStorage.getItem('disciplineDescription') || '')
 	const [disciplineEffort, setDisciplineEffort] = useState(localStorage.getItem('disciplineEffort') || '')
 	const [disciplineImage, setDisciplineImage] = useState(localStorage.getItem('disciplineImage') || '')
+	const [disciplineKal, setDisciplineKal] = useState(localStorage.getItem('disciplineKal') || '')
 	const [teacherName, setTeacherName] = useState(localStorage.getItem('teacherName') || '')
 	const [teacherLastname, setTeacherLastname] = useState(localStorage.getItem('teacherLastname') || '')
 	const [teacherImage, setTeacherImage] = useState(localStorage.getItem('teacherImage') || '')
@@ -222,7 +223,8 @@ export const AppProvider = ({ children }) => {
 					name: disciplineName,
 					description: disciplineDescription,
 					effort: disciplineEffort,
-					image: disciplineImage
+					image: disciplineImage,
+					kal: disciplineKal
 				}),
 			});
 
@@ -236,6 +238,7 @@ export const AppProvider = ({ children }) => {
 				setDisciplineDescription(data.description);
 				setDisciplineEffort(data.effort);
 				setDisciplineImage(data.image);
+				setDisciplineKal(data.kal);
 			} else {
 				console.error("Token no recibido:", data);
 			}
@@ -657,9 +660,9 @@ export const AppProvider = ({ children }) => {
 	};
 
 
-	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType, inscriptionClass, inscriptionUser, userImage, birthdate, userPhone }
+	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType, inscriptionClass, inscriptionUser, userImage, birthdate, userPhone, disciplineKal }
 	
-	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription, setUserImage, setBirthdate, setUserPhone, editUser, getUsers}
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription, setUserImage, setBirthdate, setUserPhone, editUser, getUsers, setDisciplineKal}
 
 	return (
 		<AppContext.Provider value={{ store, actions }}>

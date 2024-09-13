@@ -163,6 +163,7 @@ def add_discipline():
         name=data['name'],
         image=data['image'],
         description=data['description'],
+        kal=data['kal'],
         effort=Effort(data['effort'])
     )
 

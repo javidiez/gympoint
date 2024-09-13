@@ -59,7 +59,7 @@ export const Classes_ = () => {
                             filter_alt
                         </span>
                         <select className={styles.search} value={searchTerm} onChange={handleSearch}>
-                            <option value={''}>Selecciona una disciplina</option>
+                            <option value={''}>Todas las disciplinas</option>
                             {disciplines?.map((discipline) => (
                                 <option key={discipline.id} value={discipline.id}>
                                     {discipline.name}

@@ -61,7 +61,8 @@ export const MyProfile = () => {
     };
 
     const editUser = async (name, lastname, phone, image, birthdate) => {
-        await actions.editUser(name, lastname, phone, image, birthdate)
+        const finalImage = image || userImage;
+        await actions.editUser(name, lastname, phone, finalImage, birthdate)
         actions.getUsers();
     }
 
@@ -79,7 +80,7 @@ export const MyProfile = () => {
             <div className="container">
                 <div className="d-flex justify-content-between align-items-end">
                     <h1>Bienvenido {username}</h1>
-                    <span className="material-symbols-outlined fs-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span className={`material-symbols-outlined fs-1 ${styles.pencil}`} data-bs-toggle="modal" data-bs-target="#exampleModal">
                         edit
                     </span>
                     <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

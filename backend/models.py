@@ -79,6 +79,7 @@ class Discipline(db.Model):
     description = db.Column(db.Text)
     effort = db.Column(db.Enum(Effort))
     image = db.Column(db.String(250))
+    kal = db.Column(db.String(250))
 
     def serialize(self):
         return{
@@ -86,7 +87,8 @@ class Discipline(db.Model):
             "name": self.name,
             "description": self.description,
             "effort": self.effort.value if self.effort else None,
-            "image": self.image
+            "image": self.image,
+            "kal": self.kal
         }
 
 class Teacher(db.Model):

@@ -8,7 +8,7 @@ import styles from "./disciplinesAdmin.module.css"
 export const DisciplineAdmin = () => {
 
     const { store, actions } = useAppContext();
-    const { disciplineName, disciplineDescription, disciplineEffort, disciplineImage, disciplines } = store;
+    const { disciplineName, disciplineDescription, disciplineEffort, disciplineImage, disciplineKal, disciplines } = store;
     const navigate = useNavigate();
     const [isImageUploading, setIsImageUploading] = useState(false);
     const fileInputRef = useRef(null);
@@ -102,13 +102,18 @@ export const DisciplineAdmin = () => {
                                         </select>
                                     </div>
                                     <div className="col-sm-6">
-                                        <label htmlFor="description" className="form-label fs-5">Descripción</label>
-                                        <textarea className="form-control" placeholder="Descripción de la disciplina" id="description" style={{ height: "120px" }} value={disciplineDescription} onChange={(e) => actions.setDisciplineDescription(e.target.value)} />
+                                        <label htmlFor="kal" className="form-label fs-5">Calorías quemadas (1h)</label>
+                                        <input type="text" className="form-control" placeholder="Calorías quemadas en una hora" id="kal" value={disciplineKal} onChange={(e) => actions.setDisciplineKal(e.target.value)} />
                                     </div>
                                     <div className="col-sm-6">
                                         <label htmlFor="image" className="form-label fs-5">Imagen</label>
                                         <input type="file" className="form-control" id="image" onChange={(e) => addImages(e.target.files[0])} ref={fileInputRef} />
                                     </div>
+                                    <div className="col-12">
+                                        <label htmlFor="description" className="form-label fs-5">Descripción</label>
+                                        <textarea className="form-control" placeholder="Descripción de la disciplina" id="description" style={{ height: "120px" }} value={disciplineDescription} onChange={(e) => actions.setDisciplineDescription(e.target.value)} />
+                                    </div>
+                                    
                                     <div className="d-flex justify-content-end gap-3">
                                         <button type="button" className="btn btn-secondary fs-5 " data-bs-dismiss="modal">Cerrar</button>
                                         <button type="submit" className="btn btn-warning fs-5 me-3" data-bs-dismiss="modal" disabled={isImageUploading}>Crear</button>
@@ -129,6 +134,7 @@ export const DisciplineAdmin = () => {
                             <th className='text-light'></th>
                             <th className='text-light'>Nombre</th>
                             <th className='text-light'>Esfuerzo</th>
+                            <th className='text-light'>Calorías (1h)</th>
                             <th className='text-light'></th>
 
                         </tr>
@@ -150,6 +156,9 @@ export const DisciplineAdmin = () => {
                                         <div className="d-flex gap-3 align-items-center"><span className='text-light'>Leve</span><div className={styles.low}></div> </div> : discipline.effort == "moderate"
                                             ? <div className="d-flex gap-3 align-items-center"><span className='text-light'>Moderado</span><div className={styles.moderate}></div></div>
                                             : <div className="d-flex gap-3 align-items-center"><span className='text-light'>Alto</span><div className={styles.high}></div></div>}
+                                </td>
+                                <td className="text-nowrap">
+                                    <span className='text-light'>{discipline.kal}</span>
                                 </td>
                                 <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteDiscipline(discipline.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
