@@ -64,13 +64,22 @@ export const GymsAdmin = () => {
         }
     };
 
+
     const deleteGym = async (id) => {
         await actions.deleteGym(id);
     };
 
-    const editDiscipline = (id) => {
-        actions.editDiscipline(id);
-        navigate('/edit_discipline');
+    const editGym = async (id, name, phone, street, location, description) => {
+        await actions.editGym(id, name, phone, street, location, description)
+        actions.getGyms();
+    }
+
+    const openEditModal = (gym) => {
+        actions.setGymName(gym.name);
+        actions.setGymStreet(gym.street);
+        actions.setGymLocation(gym.location);
+        actions.setGymPhone(gym.phone);
+        actions.setGymDescription(gym.description);// Si tienes un logo o imagen
     };
 
     return (
@@ -159,14 +168,55 @@ export const GymsAdmin = () => {
                                 <td className="text-nowrap">
                                     <span className='text-light'>{gym.phone}</span>
                                 </td>
-                                
+
                                 <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteGym(gym.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>
-                                    <span onClick={() => editDiscipline(gym.id)} className="material-symbols-outlined text-light delete-icon">
+                                    <span data-bs-toggle="modal" data-bs-target={`#modalGym${gym.id}`} className={`material-symbols-outlined text-light delete-icon ${styles.icons_edit_trash}`} onClick={() => openEditModal(gym)}>
                                         edit
                                     </span>
+                                    <div className="modal fade" id={`modalGym${gym.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog modal-lg">
+                                            <div className="modal-content bg-dark p-4">
+                                                <div className="d-flex justify-content-between">
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Editar centro</h1>
+                                                    <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                </div> 
+                                                <div className="modal-body row text-start">
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Nombre</label>
+                                                        <input type="text" className="form-control" placeholder="Nombre" id="name" value={gymName} onChange={(e) => actions.setGymName(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="street" className="form-label fs-5">Calle</label>
+                                                        <input type="text" className="form-control" placeholder="Calle 1234" id="street" value={gymStreet} onChange={(e) => actions.setGymStreet(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="location" className="form-label fs-5">Provincia</label>
+                                                        <input type="text" className="form-control" placeholder="Provincia" id="location" value={gymLocation} onChange={(e) => actions.setGymLocation(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="phone" className="form-label fs-5">Teléfono</label>
+                                                        <input type="phone" className="form-control" placeholder="+34 123 456 78" id="phone" value={gymPhone} onChange={(e) => actions.setGymPhone(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="description" className="form-label fs-5">Descripción</label>
+                                                        <textarea style={{ height: "120px" }} type="text" className="form-control" placeholder="Puesto/rol" id="description" value={gymDescription} onChange={(e) => actions.setGymDescription(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="image" className="form-label fs-5">Logo</label>
+                                                        <input type="file" className="form-control" id="image" onChange={(e) => addImages(e.target.files[0])} ref={fileInputRef} />
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex justify-content-end gap-3">
+                                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <button data-bs-dismiss="modal" onClick={() => editGym(gym.id, gymName, gymPhone, gymStreet, gymLocation, gymDescription)} type="button" className="btn btn-warning">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </td>
                             </tr>
                         ))}

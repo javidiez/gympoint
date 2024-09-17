@@ -75,7 +75,7 @@ export const InscriptionAdmin = () => {
                                             <option disable hidden>Selecciona una clase</option>
                                             {classes?.map((class_) => (
                                                 <option key={class_.id} value={class_.id}>
-                                                    {class_.discipline.name} / {class_.start_time} {class_.end_time}
+                                                    {class_.discipline && class_.discipline.name ? class_.discipline.name : ""} / {class_.start_time} {class_.end_time}
                                                 </option>
                                             ))}
                                         </select>
@@ -107,13 +107,13 @@ export const InscriptionAdmin = () => {
                         </tr>
                     </thead>
                     <tbody className="fs-5">
-                        {inscriptions.map((insc, index) => (
+                        {inscriptions?.map((insc, index) => (
                             <tr key={insc.id}>
                                 <td>
                                     <span className='text-light'>{index + 1}</span>
                                 </td>
                                 <td className="text-nowrap">
-                                    <span className='text-light'>{insc.user.name} {insc.user.lastname}</span>
+                                    <span className='text-light'>{insc.user && insc.user.name ? insc.user.name : ""} {insc.user && insc.user.lastname ? insc.user.lastname : ""}</span>
                                 </td>
                                 <td className="text-nowrap pe-2">
                                                 <span className='text-light'>
@@ -122,7 +122,7 @@ export const InscriptionAdmin = () => {
                                                             <div className="d-flex gap-3 align-items-center"><div className={styles.low}></div> </div> : insc.class.discipline.effort == "moderate"
                                                                 ? <div className="d-flex gap-3 align-items-center"><div className={styles.moderate}></div></div>
                                                                 : <div className="d-flex gap-3 align-items-center"><div className={styles.high}></div></div>}
-                                                        {insc.class.discipline.name.charAt(0).toUpperCase() + insc.class.discipline.name.slice(1)}</div></span>
+                                                        {insc.class && insc.class.discipline.name.charAt(0).toUpperCase() + insc.class.discipline.name.slice(1)}</div></span>
                                             </td>
                                 <td className="text-nowrap">
                                     <span className='text-light'>{insc.class.start_time} - {insc.class.end_time}</span>

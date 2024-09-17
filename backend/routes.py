@@ -200,20 +200,28 @@ def edit_discipline(discipline_id):
     if discipline is None:
         return jsonify({"message": "Discipline not found"}), 404
 
-    data = request.json 
+    data = request.json
+    if data['effort'] not in [effort.value for effort in Effort]:
+        return jsonify({'error': 'Invalid effort value'}), 400
 
     if not data:
         return jsonify({"message": "No data provided"}), 400
 
     try:
         if 'name' in data:
-            discipline.name = data['name'] 
+            discipline.name = data['name']
         if 'description' in data:
-            discipline.description = data['description']  
+            discipline.description = data['description']
         if 'image' in data:
-           discipline.image = data['image'] 
+            discipline.image = data['image']
+        if 'kal' in data:
+            discipline.kal = data['kal']
         if 'effort' in data:
-            discipline.effort = Effort[data['effort']]
+            try:
+                effort_value = Effort(data['effort'])
+                discipline.effort = effort_value
+            except ValueError:
+                return jsonify({'error': 'Invalid effort value'}), 400
 
         db.session.commit()
 
@@ -289,6 +297,8 @@ def edit_teacher(teacher_id):
             teacher.name = data['name']
         if 'lastname' in data:
             teacher.lastname = data['lastname']
+        if 'job' in data:
+            teacher.job = data['job']
         if 'image' in data:
             teacher.image = data['image']
 
@@ -376,8 +386,6 @@ def edit_class(class_id):
             class_.start_time = data['start_time']
         if 'end_time' in data:
             class_.end_time = data['end_time']
-        if 'kal' in data:
-            class_.kal = data['kal']
         if 'room_id' in data:
             class_.room_id = data['room_id']
         if 'type' in data:
@@ -657,7 +665,7 @@ def edit_gym(gym_id):
             gym.logo = data['logo']
         if 'description' in data:
             gym.description = data['description']
-        
+
         db.session.commit()
 
         return jsonify({"message": "Gym updated successfully"}), 200

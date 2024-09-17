@@ -283,6 +283,30 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
+	const editDiscipline = async (id, name, description, effort, kal) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/edit/discipline/${id}`, {
+				method: "PUT",
+				body: JSON.stringify({ name, description, effort, kal }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			// Actualiza el usuario en la lista existente
+			setDisciplines(disciplines.map(discipline => (discipline.id === id ? data : discipline)));
+
+			console.log('Discipline updated successfully:', data);
+		} catch (error) {
+			console.error('There was an error updating the discipline:', error);
+		}
+	}
+
 	const addTeacher = async () => {
 		try {
 			// Enviar la solicitud POST usando fetch
@@ -353,6 +377,30 @@ export const AppProvider = ({ children }) => {
 		}
 	};
 
+	const editTeacher = async (id, name, lastname, job) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/edit/teacher/${id}`, {
+				method: "PUT",
+				body: JSON.stringify({ name, lastname, job }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			// Actualiza el teacher en la lista existente
+			setTeachers(teachers.map(teacher => (teacher.id === id ? data : teacher)));
+
+			console.log('Teacher updated successfully:', data);
+		} catch (error) {
+			console.error('There was an error updating the teacher:', error);
+		}
+	}
+
 	const addRoom = async () => {
 		try {
 			// Enviar la solicitud POST usando fetch
@@ -418,6 +466,30 @@ export const AppProvider = ({ children }) => {
 			console.error('There was an error deleting room:', error);
 		}
 	};
+
+	const editRoom = async (id, name, capacity) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/edit/room/${id}`, {
+				method: "PUT",
+				body: JSON.stringify({ name, capacity }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			// Actualiza el usuario en la lista existente
+			setRooms(rooms.map(room => (room.id === id ? data : room)));
+
+			console.log('Room updated successfully:', data);
+		} catch (error) {
+			console.error('There was an error updating the room:', error);
+		}
+	}
 
 	const addGym = async () => {
 		try {
@@ -492,6 +564,30 @@ export const AppProvider = ({ children }) => {
 			console.error('There was an error fetching the gyms!', error);
 		}
 	};
+
+	const editGym = async (id, name, phone, street, location, description) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/edit/gym/${id}`, {
+				method: "PUT",
+				body: JSON.stringify({ name, phone, street, location, description }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			// Actualiza el usuario en la lista existente
+			setGyms(gyms.map(gym => (gym.id === id ? data : gym)));
+
+			console.log('Gym updated successfully:', data);
+		} catch (error) {
+			console.error('There was an error updating the gym:', error);
+		}
+	}
 
 	const getClasses = async () => {
 		try {
@@ -568,6 +664,30 @@ export const AppProvider = ({ children }) => {
 			console.error('There was an error deleting the class:', error);
 		}
 	};
+
+	const editClass = async (id, discipline, start_time, end_time, room, teacher, date, type) => {
+		try {
+			const response = await fetch(`http://127.0.0.1:5000/edit/class/${id}`, {
+				method: "PUT",
+				body: JSON.stringify({ discipline_id: discipline, start_time, end_time, room_id: room, teacher_id: teacher, date, type }),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+			// Actualiza el usuario en la lista existente
+			setClasses(classes.map(class_ => (class_.id === id ? data : class_)));
+
+			console.log('Class updated successfully:', data);
+		} catch (error) {
+			console.error('There was an error updating the class:', error);
+		}
+	}
 
 	const addImages = async (formData) => {
 		try {
@@ -662,7 +782,7 @@ export const AppProvider = ({ children }) => {
 
 	const store = { users, name, email, password, username, lastname, role, token, userId, disciplines, disciplineName, disciplineDescription, disciplineEffort, disciplineImage, classes, teachers, rooms, inscriptions, favorites, gyms, teacherImage, teacherJob, teacherName, teacherLastname, roomName, roomCapacity, gymDescription, gymImage, gymLocation, gymName, gymPhone, gymStreet, classDiscipline, classEndTime, classStartTime, classTeacher, classRoom, classKal, classDate, classType, inscriptionClass, inscriptionUser, userImage, birthdate, userPhone, disciplineKal }
 	
-	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription, setUserImage, setBirthdate, setUserPhone, editUser, getUsers, setDisciplineKal}
+	const actions = { signUp, logIn, logOut, setName, setUsername, setLastname, setRole, setEmail, setPassword, setToken, setUserId, setUsers, setClasses, setTeachers, setRooms, setInscriptions, setFavorites, setGyms, addDisciplines, setDisciplines, setDisciplineName, setDisciplineDescription, setDisciplineImage, setDisciplineEffort, addImages, getDisciplines, deleteDiscipline, setTeacherImage, setTeacherJob, setTeacherName, setTeacherLastname, addTeacher, getTeachers, deleteTeacher, setRoomName, setRoomCapacity, deleteRoom, getRooms, addRoom, addGym, setGymDescription, setGymImage, setGymLocation, setGymName, setGymPhone, setGymStreet, deleteGym, getGyms, getClasses, addClass, setClassDiscipline, setClassEndTime, setClassRoom, setClassStartTime, setClassTeacher, setClassKal, setClassDate, setClassType, deleteClass, addInscription, setInscriptionClass, setInscriptionUser, getInscriptions, deleteInscription, setUserImage, setBirthdate, setUserPhone, editUser, getUsers, setDisciplineKal, editGym, editDiscipline, editRoom, editClass, editTeacher}
 
 	return (
 		<AppContext.Provider value={{ store, actions }}>

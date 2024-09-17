@@ -66,9 +66,15 @@ export const TeachersAdmin = () => {
         await actions.deleteTeacher(id);
     };
 
-    const editDiscipline = (id) => {
-        actions.editDiscipline(id);
-        navigate('/edit_discipline');
+    const editTeacher = async (id, name, lastname, job) => {
+        await actions.editTeacher(id, name, lastname, job)
+        actions.getTeachers();
+    }
+
+    const openEditModal = (teacher) => {
+        actions.setTeacherName(teacher.name);
+        actions.setTeacherLastname(teacher.lastname);
+        actions.setTeacherJob(teacher.job);
     };
 
     return (
@@ -141,14 +147,48 @@ export const TeachersAdmin = () => {
                                 <td className="text-nowrap">
                                     <span className='text-light'>{teacher.job}</span>
                                 </td>
-                                
+
                                 <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteTeacher(teacher.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>
-                                    <span onClick={() => editDiscipline(teacher.id)} className="material-symbols-outlined text-light delete-icon">
+                                    <span data-bs-toggle="modal" data-bs-target={`#modalTeacher${teacher.id}`} className={`material-symbols-outlined text-light delete-icon ${styles.icons_edit_trash}`} onClick={() => openEditModal(teacher)}>
                                         edit
                                     </span>
+
+                                    <div class="modal fade" id={`modalTeacher${teacher.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content bg-dark p-4">
+                                                <div className="d-flex justify-content-between">
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Editar profesor</h1>
+                                                    <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                </div>
+                                                <div className="modal-body row text-start">
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Nombre</label>
+                                                        <input type="text" className="form-control" placeholder="Nombre" id="name" value={teacherName} onChange={(e) => actions.setTeacherName(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Apellido</label>
+                                                        <input type="text" className="form-control" placeholder="Apellido" id="lastname" value={teacherLastname} onChange={(e) => actions.setTeacherLastname(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Puesto</label>
+                                                        <input type="text" className="form-control" placeholder="Puesto/rol" id="name" value={teacherJob} onChange={(e) => actions.setTeacherJob(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="image" className="form-label fs-5">Foto</label>
+                                                        <input type="file" className="form-control" id="image" onChange={(e) => addImages(e.target.files[0])} ref={fileInputRef} />
+                                                    </div>
+
+                                                    <div className="d-flex justify-content-end gap-3 mt-4">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        <button data-bs-dismiss="modal" onClick={() => editTeacher(teacher.id, teacherName, teacherLastname, teacherJob)} type="button" class="btn btn-warning">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

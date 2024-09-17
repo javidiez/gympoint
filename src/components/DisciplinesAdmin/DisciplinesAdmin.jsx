@@ -68,9 +68,16 @@ export const DisciplineAdmin = () => {
         await actions.deleteDiscipline(id);
     };
 
-    const editDiscipline = (id) => {
-        actions.editDiscipline(id);
-        navigate('/edit_discipline');
+    const editDiscipline = async (id, name, description, effort, kal) => {
+        await actions.editDiscipline(id, name, description, effort, kal);
+        actions.getDisciplines();
+    };
+
+    const openEditModal = (discipline) => {
+        actions.setDisciplineName(discipline.name);
+        actions.setDisciplineDescription(discipline.description);
+        actions.setDisciplineEffort(discipline.effort);
+        actions.setDisciplineKal(discipline.kal);
     };
 
     return (
@@ -113,7 +120,7 @@ export const DisciplineAdmin = () => {
                                         <label htmlFor="description" className="form-label fs-5">Descripción</label>
                                         <textarea className="form-control" placeholder="Descripción de la disciplina" id="description" style={{ height: "120px" }} value={disciplineDescription} onChange={(e) => actions.setDisciplineDescription(e.target.value)} />
                                     </div>
-                                    
+
                                     <div className="d-flex justify-content-end gap-3">
                                         <button type="button" className="btn btn-secondary fs-5 " data-bs-dismiss="modal">Cerrar</button>
                                         <button type="submit" className="btn btn-warning fs-5 me-3" data-bs-dismiss="modal" disabled={isImageUploading}>Crear</button>
@@ -164,9 +171,52 @@ export const DisciplineAdmin = () => {
                                     <span onClick={() => deleteDiscipline(discipline.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>
-                                    <span onClick={() => editDiscipline(discipline.id)} className="material-symbols-outlined text-light delete-icon">
+                                    <span data-bs-toggle="modal" data-bs-target={`#modal${discipline.id}`} className={`material-symbols-outlined text-light delete-icon ${styles.icons_edit_trash}`} onClick={() => openEditModal(discipline)}>
                                         edit
                                     </span>
+
+                                    <div className="modal fade" id={`modal${discipline.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog modal-lg">
+                                            <div className="modal-content bg-dark p-4">
+                                                <div className="d-flex justify-content-between">
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Editar disciplina</h1>
+                                                    <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                </div>
+                                                <div className="modal-body row text-start">
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Nombre</label>
+                                                        <input type="text" className="form-control" placeholder="Nombre de la disciplina" id="name" value={disciplineName} onChange={(e) => actions.setDisciplineName(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="effort" className="form-label fs-5">Esfuerzo</label>
+                                                        <select id="effort" className="form-select" defaultValue={"Seleccionar tipo de esfuerzo"} value={disciplineEffort} onChange={(e) => actions.setDisciplineEffort(e.target.value)}>
+                                                            <option hidden>Seleccionar tipo de esfuerzo</option>
+                                                            <option value="low">Leve</option>
+                                                            <option value="moderate">Moderado</option>
+                                                            <option value="hight">Alto</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="kal" className="form-label fs-5">Calorías quemadas (1h)</label>
+                                                        <input type="text" className="form-control" placeholder="Calorías quemadas en una hora" id="kal" value={disciplineKal} onChange={(e) => actions.setDisciplineKal(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="image" className="form-label fs-5">Imagen</label>
+                                                        <input type="file" className="form-control" id="image" onChange={(e) => addImages(e.target.files[0])} ref={fileInputRef} />
+                                                    </div>
+                                                    <div className="col-12">
+                                                        <label htmlFor="description" className="form-label fs-5">Descripción</label>
+                                                        <textarea className="form-control" placeholder="Descripción de la disciplina" id="description" style={{ height: "120px" }} value={disciplineDescription} onChange={(e) => actions.setDisciplineDescription(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex justify-content-end gap-3">
+                                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <button data-bs-dismiss="modal" onClick={() => editDiscipline(discipline.id, disciplineName, disciplineDescription, disciplineEffort, disciplineKal)} type="button" className="btn btn-warning">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </td>
                             </tr>
                         ))}

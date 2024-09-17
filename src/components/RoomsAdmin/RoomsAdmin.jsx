@@ -37,10 +37,16 @@ export const RoomsAdmin = () => {
         await actions.deleteRoom(id);
     };
 
-    const editDiscipline = (id) => {
-        actions.editDiscipline(id);
-        navigate('/edit_discipline');
+    const editRoom = async (id, name, capacity) => {
+        await actions.editRoom(id, name, capacity);
+        actions.getRooms();
     };
+
+    const openEditModal = (room) => {
+        actions.setRoomName(room.name);
+        actions.setRoomCapacity(room.capacity);
+    };
+
 
     return (
         <div className="tab-pane fade" id="pills-rooms" role="tabpanel" aria-labelledby="pills-rooms-tab" tabIndex="0">
@@ -100,14 +106,39 @@ export const RoomsAdmin = () => {
                                 <td className="text-nowrap">
                                     <span className='text-light'>{room.capacity} personas</span>
                                 </td>
-                                
+
                                 <td className='text-end text-nowrap'>
                                     <span onClick={() => deleteRoom(room.id)} className={`material-symbols-outlined text-light me-2 delete-icon ${styles.icons_edit_trash}`}>
                                         delete
                                     </span>
-                                    <span onClick={() => editDiscipline(room.id)} className="material-symbols-outlined text-light delete-icon">
+                                    <span data-bs-toggle="modal" data-bs-target={`#modal${room.id}`} className={`material-symbols-outlined text-light delete-icon ${styles.icons_edit_trash}`} onClick={() => openEditModal(room)}>
                                         edit
                                     </span>
+
+                                    <div class="modal fade" id={`modal${room.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content bg-dark p-4">
+                                                <div className="d-flex justify-content-between">
+                                                    <h1 className="modal-title fs-5" id="exampleModalLabel">Editar disciplina</h1>
+                                                    <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                </div>
+                                                <div class="modal-body row text-start">
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Nombre</label>
+                                                        <input type="text" className="form-control" placeholder="Nombre" id="name" value={roomName} onChange={(e) => actions.setRoomName(e.target.value)} />
+                                                    </div>
+                                                    <div className="col-sm-6">
+                                                        <label htmlFor="name" className="form-label fs-5">Capacidad</label>
+                                                        <input type="number" className="form-control" placeholder="Personas que entran" id="lastname" value={roomCapacity} onChange={(e) => actions.setRoomCapacity(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex justify-content-end gap-3">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <button data-bs-dismiss="modal" onClick={() => editRoom(room.id, roomName, roomCapacity)} type="button" class="btn btn-warning">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

@@ -50,13 +50,15 @@ class Class_(db.Model):
             "discipline":{
                 "id": self.discipline.id,
                 "name":self.discipline.name,
-                "effort":self.discipline.effort.value if self.discipline.effort else None,
+                "effort":self.discipline.effort.value if self.discipline.effort else None
                 },
             "teacher":{
+                "id": self.teacher.id,
                 "name": self.teacher.name,
                 "lastname": self.teacher.lastname
                 },
             "room":{
+                "id": self.room.id,
                 "name": self.room.name
                 },
             "date": self.date.isoformat(),

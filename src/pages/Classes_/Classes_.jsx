@@ -55,7 +55,7 @@ export const Classes_ = () => {
                 <div className="d-flex justify-content-between align-items-end">
                     <h1>Reserva clase</h1>
                     <div className="d-flex align-items-center gap-1">
-                        <span class="material-symbols-outlined">
+                        <span className="material-symbols-outlined">
                             filter_alt
                         </span>
                         <select className={styles.search} value={searchTerm} onChange={handleSearch}>
