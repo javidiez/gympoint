@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Classes_ = () => {
     const { store, actions } = useAppContext();
-    const { classes, userId, inscriptions, disciplines } = store;
+    const { classes, role, inscriptions, disciplines } = store;
     const navigate = useNavigate()
     const [searchTerm, setSearchTerm] = useState('');
     const [searchDate, setSearchDate] = useState('');
@@ -59,7 +59,7 @@ export const Classes_ = () => {
 
     return (
         <>
-            <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
+            <Navbar buttonAdmin={role == "admin" ? <button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button> : ''} />
             <div className={`container`}>
                 <div className="d-flex justify-content-between align-items-end flex-wrap gap-3">
                     <h1>Reservar clase</h1>

@@ -12,7 +12,7 @@ import styles from "./disciplines.module.css"
 export const Disciplines = () => {
 
   const { store, actions } = useAppContext();
-  const { token, disciplines } = store;
+  const { token, disciplines, role } = store;
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -36,7 +36,7 @@ export const Disciplines = () => {
 
   return (
     <>
-      <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
+      <Navbar buttonAdmin={role == "admin" ? <button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button> : ''} />
       <div className={`container ${styles.container}`}>
         <h1 className="mb-5">Disciplinas</h1>
         <div className="row">

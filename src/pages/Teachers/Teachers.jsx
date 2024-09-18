@@ -9,7 +9,7 @@ import { CardTeacher } from "../../components/CardTeacher/CardTeacher.jsx";
 export const Teachers = () => {
 
     const { store, actions } = useAppContext();
-    const { token, teachers } = store;
+    const { token, teachers, role } = store;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,8 +30,8 @@ export const Teachers = () => {
 
     return (
         <>
-            <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
-            <div className="container pb-5">
+      <Navbar buttonAdmin={role == "admin" ? <button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button> : ''} />
+      <div className="container pb-5">
             <h1 className="mb-5">Equipo humano</h1>
                 <div className="row gap-4 justify-content-center">
             {teachers?.map((teacher, index) => (

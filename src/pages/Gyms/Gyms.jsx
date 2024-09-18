@@ -8,7 +8,7 @@ import styles from "./gyms.module.css"
 export const Gyms = () => {
 
     const { store, actions } = useAppContext();
-    const { token, gyms } = store;
+    const { token, gyms, role } = store;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -29,8 +29,8 @@ export const Gyms = () => {
 
     return (
         <>
-            <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
-            <div className="container pb-5">
+      <Navbar buttonAdmin={role == "admin" ? <button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button> : ''} />
+      <div className="container pb-5">
                 <h1 className="mb-5">Mi gimnasio</h1>
                 <div className="border rounded p-4">
                     {gyms?.map((gym, index) => (
