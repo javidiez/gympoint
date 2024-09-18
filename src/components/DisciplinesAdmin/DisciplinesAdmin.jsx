@@ -176,7 +176,7 @@ export const DisciplineAdmin = () => {
                                     </span>
 
                                     <div className="modal fade" id={`modal${discipline.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div className="modal-dialog modal-lg">
+                                    <div className={`${styles.modal_shadow} modal-dialog modal-lg`}>
                                             <div className="modal-content bg-dark p-4">
                                                 <div className="d-flex justify-content-between">
                                                     <h1 className="modal-title fs-5" id="exampleModalLabel">Editar disciplina</h1>

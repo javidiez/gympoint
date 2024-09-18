@@ -66,7 +66,7 @@ export const Class_ = ({ effort, name, time, room, teacher }) => {
                                         return hoursA === hoursB ? minutesA - minutesB : hoursA - hoursB;
                                     })
                                     .map(class_ => {
-                                        const userInscription = inscriptions.find(inscription => 
+                                        const userInscription = inscriptions.find(inscription =>
                                             inscription.class.class_id === class_.id && inscription.user.user_id === storedUserId
                                         );
 
@@ -102,12 +102,40 @@ export const Class_ = ({ effort, name, time, room, teacher }) => {
                                                 </td>
                                                 <td>
                                                     {!userInscription ? (
-                                                        <button
-                                                            onClick={() => addInscription(class_.id, storedUserId)}
-                                                            className="btn btn-success p-0 fs-5 px-2"
-                                                        >
-                                                            Reservar
-                                                        </button>
+                                                        <>
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target={`#modalRes${class_.id}`}
+
+                                                                className="btn btn-success p-0 fs-5 px-2"
+                                                            >
+                                                                Reservar
+                                                            </button>
+
+
+                                                            <div class="modal fade" id={`modalRes${class_.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div className={`${styles.modal_shadow} modal-dialog`}>
+                                                                    <div class="modal-content bg-dark p-4">
+                                                                        <div className="d-flex justify-content-between">
+                                                                            <h1 className="modal-title fs-5" id="exampleModalLabel">Tu reserva</h1>
+                                                                            <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                                        </div>
+                                                                        <div className="modal-body row gap-3 text-start">
+                                                                            <p><span className="fw-bold">Disciplina</span>: {class_.discipline.name.charAt(0).toUpperCase() + class_.discipline.name.slice(1)}</p>
+                                                                            <p><span className="fw-bold">Horario</span>: {class_.start_time} - {class_.end_time} </p>
+                                                                            <p><span className="fw-bold">Fecha</span>: {new Date(class_.date).toLocaleDateString('es-ES', {
+                                                                                day: '2-digit',
+                                                                                month: '2-digit',
+                                                                                year: 'numeric'
+                                                                            })}</p>
+
+                                                                        </div>
+                                                                        <div className="d-flex justify-content-end gap-3 mt-4">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                            <button onClick={() => addInscription(class_.id, storedUserId)} type="button" data-bs-dismiss="modal" className="btn btn-success p-0 fs-5 px-2">Reservar</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </>
                                                     ) : (
                                                         <button
                                                             onClick={() => deleteInscription(userInscription.id)}
@@ -150,7 +178,7 @@ export const Class_ = ({ effort, name, time, room, teacher }) => {
                                         return hoursA === hoursB ? minutesA - minutesB : hoursA - hoursB;
                                     })
                                     .map(class_ => {
-                                        const userInscription = inscriptions.find(inscription => 
+                                        const userInscription = inscriptions.find(inscription =>
                                             inscription.class.class_id === class_.id && inscription.user.user_id === storedUserId
                                         );
 
@@ -186,12 +214,40 @@ export const Class_ = ({ effort, name, time, room, teacher }) => {
                                                 </td>
                                                 <td>
                                                     {!userInscription ? (
-                                                        <button
-                                                            onClick={() => addInscription(class_.id, storedUserId)}
-                                                            className="btn btn-success p-0 fs-5 px-2"
-                                                        >
-                                                            Reservar
-                                                        </button>
+                                                        <>
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target={`#modalRes${class_.id}`}
+
+                                                                className="btn btn-success p-0 fs-5 px-2"
+                                                            >
+                                                                Reservar
+                                                            </button>
+
+
+                                                            <div class="modal fade" id={`modalRes${class_.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div className={`${styles.modal_shadow} modal-dialog`}>
+                                                                    <div class="modal-content bg-dark p-4">
+                                                                        <div className="d-flex justify-content-between">
+                                                                            <h1 className="modal-title fs-5" id="exampleModalLabel">Tu reserva</h1>
+                                                                            <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                                        </div>
+                                                                        <div className="modal-body row gap-3 text-start">
+                                                                            <p><span className="fw-bold">Disciplina</span>: {class_.discipline.name.charAt(0).toUpperCase() + class_.discipline.name.slice(1)}</p>
+                                                                            <p><span className="fw-bold">Horario</span>: {class_.start_time} - {class_.end_time} </p>
+                                                                            <p><span className="fw-bold">Fecha</span>: {new Date(class_.date).toLocaleDateString('es-ES', {
+                                                                                day: '2-digit',
+                                                                                month: '2-digit',
+                                                                                year: 'numeric'
+                                                                            })}</p>
+
+                                                                        </div>
+                                                                        <div className="d-flex justify-content-end gap-3 mt-4">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                            <button onClick={() => addInscription(class_.id, storedUserId)} type="button" data-bs-dismiss="modal" className="btn btn-success p-0 fs-5 px-2">Reservar</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </>
                                                     ) : (
                                                         <button
                                                             onClick={() => deleteInscription(userInscription.id)}

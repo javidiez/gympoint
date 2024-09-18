@@ -7,3 +7,8 @@
 .icons_edit_trash{
     cursor: pointer;
 }
+
+.modal_shadow{
+    border: 1px solid white;
+    border-radius: 10px;
+}

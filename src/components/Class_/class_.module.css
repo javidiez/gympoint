@@ -34,3 +34,8 @@
     border-radius: 50%;
     background-color: rgb(252, 40, 40);
 }
+
+.modal_shadow{
+    border: 1px solid white;
+    border-radius: 10px;
+}

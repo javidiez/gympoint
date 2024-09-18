@@ -9,6 +9,7 @@ export const Classes_ = () => {
     const { classes, userId, inscriptions, disciplines } = store;
     const navigate = useNavigate()
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchDate, setSearchDate] = useState('');
 
     useEffect(() => {
         actions.getClasses();
@@ -38,6 +39,10 @@ export const Classes_ = () => {
         setSearchTerm(event.target.value);
     };
 
+    const handleSearchDate = (event) => {
+        setSearchDate(event.target.value);
+    };
+
     const abailableClasses = classes.filter(class_ => {
         const classDate = class_.date;
         const classStartTime = class_.start_time;
@@ -48,24 +53,37 @@ export const Classes_ = () => {
         searchTerm === "" || class_.discipline.id === parseInt(searchTerm, 10)
     );
 
+    const dateFilter = filteredClasses.filter(class_ =>
+        searchDate === "" || class_.date === searchDate
+    )
+
     return (
         <>
             <Navbar buttonAdmin={<button onClick={handleAdmin} className="btn btn-danger me-2">Administrador</button>} />
             <div className={`container`}>
-                <div className="d-flex justify-content-between align-items-end">
-                    <h1>Reserva clase</h1>
-                    <div className="d-flex align-items-center gap-1">
+                <div className="d-flex justify-content-between align-items-end flex-wrap gap-3">
+                    <h1>Reservar clase</h1>
+                    <div className="d-flex align-items-center gap-4 flex-wrap">
+                        <div className="d-flex align-items-center gap-1">
                         <span className="material-symbols-outlined">
-                            filter_alt
-                        </span>
-                        <select className={styles.search} value={searchTerm} onChange={handleSearch}>
-                            <option value={''}>Todas las disciplinas</option>
-                            {disciplines?.map((discipline) => (
-                                <option key={discipline.id} value={discipline.id}>
-                                    {discipline.name}
-                                </option>
-                            ))}
-                        </select>
+                        calendar_month
+                            </span>
+                            <input type="date" value={searchDate} onChange={handleSearchDate}></input>
+                            
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                        <span className="material-symbols-outlined">
+                                filter_alt
+                            </span>
+                            <select className={styles.search} value={searchTerm} onChange={handleSearch}>
+                                <option value={''}>Todas las disciplinas</option>
+                                {disciplines?.map((discipline) => (
+                                    <option key={discipline.id} value={discipline.id}>
+                                        {discipline.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -83,8 +101,8 @@ export const Classes_ = () => {
                             </tr>
                         </thead>
                         <tbody className={styles.tbody_table}>
-                            {filteredClasses.length > 0 ? (
-                                filteredClasses
+                            {dateFilter.length > 0 ? (
+                                dateFilter
                                     .filter(class_ => {
                                         const classDate = class_.date;
                                         const classStartTime = class_.start_time;
@@ -139,12 +157,40 @@ export const Classes_ = () => {
                                                 </td>
                                                 <td>
                                                     {!userInscription ? (
-                                                        <button
-                                                            onClick={() => addInscription(class_.id, storedUserId)}
-                                                            className="btn btn-success p-0 fs-5 px-2"
-                                                        >
-                                                            Reservar
-                                                        </button>
+                                                        <>
+                                                            <button type="button" data-bs-toggle="modal" data-bs-target={`#modalRes${class_.id}`}
+
+                                                                className="btn btn-success p-0 fs-5 px-2"
+                                                            >
+                                                                Reservar
+                                                            </button>
+
+
+                                                            <div class="modal fade" id={`modalRes${class_.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div className={`${styles.modal_shadow} modal-dialog`}>
+                                                                    <div class="modal-content bg-dark p-4">
+                                                                        <div className="d-flex justify-content-between">
+                                                                            <h1 className="modal-title fs-5" id="exampleModalLabel">Tu reserva</h1>
+                                                                            <button type="button" className="btn btn-dark text-light fw-bold fs-5" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                                                        </div>
+                                                                        <div className="modal-body row gap-3 text-start">
+                                                                            <p><span className="fw-bold">Disciplina</span>: {class_.discipline.name.charAt(0).toUpperCase() + class_.discipline.name.slice(1)}</p>
+                                                                            <p><span className="fw-bold">Horario</span>: {class_.start_time} - {class_.end_time} </p>
+                                                                            <p><span className="fw-bold">Fecha</span>: {new Date(class_.date).toLocaleDateString('es-ES', {
+                                                                                day: '2-digit',
+                                                                                month: '2-digit',
+                                                                                year: 'numeric'
+                                                                            })}</p>
+
+                                                                        </div>
+                                                                        <div className="d-flex justify-content-end gap-3 mt-4">
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                                            <button onClick={() => addInscription(class_.id, storedUserId)} type="button" data-bs-dismiss="modal" className="btn btn-success p-0 fs-5 px-2">Reservar</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </>
                                                     ) : (
                                                         <button
                                                             onClick={() => deleteInscription(userInscription.id)}

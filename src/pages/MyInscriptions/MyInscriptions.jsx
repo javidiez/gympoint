@@ -87,7 +87,7 @@ export const MyInscriptions = () => {
                                             <span className='text-light'>{insc.class.room.name}</span>
                                         </td>
                                         <td className="text-nowrap">
-                                            <span className='text-light'>{insc.class.teacher.name}</span>
+                                            <span className='text-light'>{insc.class.teacher.name} {insc.class.teacher.lastname}</span>
                                         </td>
                                         <td className="text-nowrap">
                                         <span className='text-light'> {insc.class.type.charAt(0).toUpperCase() + insc.class.type.slice(1)} </span>

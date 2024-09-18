@@ -157,7 +157,7 @@ export const TeachersAdmin = () => {
                                     </span>
 
                                     <div class="modal fade" id={`modalTeacher${teacher.id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
+                                    <div className={`${styles.modal_shadow} modal-dialog modal-lg`}>
                                             <div class="modal-content bg-dark p-4">
                                                 <div className="d-flex justify-content-between">
                                                     <h1 className="modal-title fs-5" id="exampleModalLabel">Editar profesor</h1>

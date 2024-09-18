@@ -36,16 +36,22 @@ export const Gyms = () => {
                     {gyms?.map((gym, index) => (
                         <div key={index} className="d-flex gap-4">
                             <div>
-                            <img src={gym.logo} className={styles.logo} />
+                                <img src={gym.logo} className={styles.logo} />
                             </div>
                             <div>
-                            <p className="display-5">{gym.name}</p>
-                            <p className="fs-4 ">{gym.location}</p>
-                            <p className="fs-4">{gym.street}</p>
-                            <p className="fs-4">{gym.phone}</p>
-                            
+                                <p className="display-5">{gym.name}</p>
+                                <p className="fs-4 pt-3"><span className="material-symbols-outlined pe-2">
+                                    location_on
+                                </span>{gym.location}</p>
+                                <p className="fs-4"><span class="material-symbols-outlined pe-2">
+                                    signpost
+                                </span>{gym.street}</p>
+                                <p className="fs-4"><span class="material-symbols-outlined pe-2">
+                                    call
+                                </span>{gym.phone}</p>
+
                             </div>
-                            
+
                         </div>
                     ))}
                 </div>
